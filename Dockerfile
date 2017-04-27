@@ -17,6 +17,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
   libxml2-dev \
   mysql-client \
   poppler-utils \
+  ttf-unifont \
   unzip \
   zip \
   && yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
