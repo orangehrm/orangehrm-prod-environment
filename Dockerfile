@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libldap2-dev \
   libmcrypt-dev \
   libpng12-dev \
+  libssh2-1-dev \
   zlib1g-dev \
   && rm -rf /var/lib/apt/lists/* \
   && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
@@ -49,8 +50,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      opcache \
      soap \
      zip \
-  && pecl install stats \
-  && docker-php-ext-enable stats \
+  && pecl install \
+        ssh2 \
+        stats \
+  && docker-php-ext-enable \
+        ssh2 \
+        stats \
   && apt-get purge -y --auto-remove \
     libfreetype6-dev \
     libgd-tools \
@@ -59,6 +64,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libldap2-dev \
     libmcrypt-dev \
     libpng12-dev \
+    libssh2-1-dev \
     zlib1g-dev
 
 
