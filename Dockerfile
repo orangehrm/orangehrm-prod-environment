@@ -6,37 +6,35 @@ WORKDIR /var/www/html
 
 #Install dependent software
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
-  cron \
-  libreoffice-common \
-  libreoffice-draw \
-  libreoffice-writer \
-  libpng12-dev \
-  libjpeg-dev \
-  libxml2-dev \
-  mysql-client \
-  poppler-utils \
-  ttf-unifont \
-  unzip \
-  zip \
-  && yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-  && docker-php-ext-enable apcu \
-  && rm -rf /var/lib/apt/lists/*
+    cron \
+    libreoffice-common \
+    libreoffice-draw \
+    libreoffice-writer \
+    libpng12-dev \
+    libjpeg-dev \
+    libxml2-dev \
+    mysql-client \
+    poppler-utils \
+    ttf-unifont \
+    unzip \
+    zip
 
-#Install PHP extenstions
+#Install libraries required to compile PHP modules
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  libfreetype6-dev \
-  libgd-tools \
-  libjpeg-dev \
-  libjpeg62-turbo-dev \
-  libldap2-dev \
-  libmcrypt-dev \
-  libpng12-dev \
-  libssh2-1-dev \
-  zlib1g-dev \
-  && rm -rf /var/lib/apt/lists/* \
-  && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
-  && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu  \
-  && docker-php-ext-install \
+    libfreetype6-dev \
+    libgd-tools \
+    libjpeg62-turbo-dev \
+    libldap2-dev \
+    libmcrypt-dev \
+    libssh2-1-dev \
+    zlib1g-dev
+
+# Configure PHP modules
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
+    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu
+
+# Install PHP modules
+RUN  docker-php-ext-install \
      bcmath \
      calendar \
      exif \
@@ -49,24 +47,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      pdo_mysql \
      opcache \
      soap \
-     zip \
-  && pecl install \
-        ssh2 \
-        stats \
-  && docker-php-ext-enable \
-        ssh2 \
-        stats \
-  && apt-get purge -y --auto-remove \
-    libfreetype6-dev \
-    libgd-tools \
-    libjpeg62-turbo-dev \
-    libjpeg-dev \
-    libldap2-dev \
-    libmcrypt-dev \
-    libpng12-dev \
-    libssh2-1-dev \
-    zlib1g-dev
+     zip
 
+# Install PHP extended community libraries
+RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
+    && pecl install \
+         ssh2 \
+         stats \
+    && docker-php-ext-enable \
+         apcu \
+         ssh2 \
+         stats
+
+# Remove apps not needed and clean apt cache
+RUN apt-get purge -y --auto-remove \
+        libfreetype6-dev \
+        libgd-tools \
+        libjpeg62-turbo-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libmcrypt-dev \
+        libpng12-dev \
+        libssh2-1-dev \
+        zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable apache mods.
 RUN a2enmod php5 rewrite expires headers ssl
