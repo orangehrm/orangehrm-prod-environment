@@ -80,7 +80,7 @@ RUN apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable apache mods.
-RUN a2enmod php5 rewrite expires headers ssl
+RUN a2enmod php7 rewrite expires headers ssl
 
 # Update the default apache site with the config we created.
 COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
