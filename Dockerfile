@@ -41,7 +41,6 @@ RUN  docker-php-ext-install \
      gd \
      gettext \
      ldap \
-     mysql \
      mysqli \
      pdo \
      pdo_mysql \
@@ -50,14 +49,22 @@ RUN  docker-php-ext-install \
      zip
 
 # Install PHP extended community libraries
-RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-    && pecl install \
-         ssh2 \
-         stats \
-    && docker-php-ext-enable \
+RUN yes "" | pecl install apcu
+
+#Compile ssh2 bindings extension for PHP7
+COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
+RUN cd /pecl-networking-ssh2-master && phpize \
+    && ./configure \
+    && make \
+    && make install
+
+# pecl/stats requires PHP (version >= 5.3.0, version <= 5.6.99), installed version is 7.1.6
+#RUN pecl install stats-1.0.5
+
+#enable php extensions
+RUN docker-php-ext-enable \
          apcu \
-         ssh2 \
-         stats
+         ssh2
 
 # Remove apps not needed and clean apt cache
 RUN apt-get purge -y --auto-remove \
@@ -82,8 +89,9 @@ COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
-COPY php.ini /usr/local/etc/php/php.ini
+# ioncube is not supported in php 7.1 yet
+#COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
+#COPY php.ini /usr/local/etc/php/php.ini
 
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
