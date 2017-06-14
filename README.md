@@ -1,3 +1,7 @@
+# OrangeHRM Production Environment for PHP 7.1
+[![Docker Status](https://img.shields.io/docker/pulls/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/)
+
+
 # Enabled software tools in image
 1. **apache** _server version_ : 2.4.7
 2. **php** _version_ : 5.3/5.4/5.5/5.6
