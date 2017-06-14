@@ -3,8 +3,8 @@
 
 
 # Enabled software tools in image
-1. **apache** _server version_ : 2.4.7
-2. **php** _version_ : 5.3/5.4/5.5/5.6
+1. **apache** _server version_ : 2.4.10
+2. **php** _version_ : 7.1
 
 # Enabled PHP modules
 - apc
@@ -40,3 +40,4 @@
 - posix
 - readline
 - Reflection
+- SSH2
