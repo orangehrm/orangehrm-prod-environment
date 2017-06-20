@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libldap2-dev \
     libmcrypt-dev \
     libssh2-1-dev \
+    memcached \
     zlib1g-dev
 
 # Configure PHP modules
