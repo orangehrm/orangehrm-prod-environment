@@ -89,7 +89,7 @@ COPY php.ini /usr/local/etc/php/php.ini
 
 
 # Add supervisor conf
-RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Docker startup
