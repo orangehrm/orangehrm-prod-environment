@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     libldap2-dev \
     libmcrypt-dev \
+    libmemcached-dev \
     libssh2-1-dev \
     zlib1g-dev
 
@@ -53,11 +54,16 @@ RUN  docker-php-ext-install \
 
 # Install PHP extended community libraries
 RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
+    && docker-php-ext-configure \
+         mcrypt \
     && pecl install \
+         mcrypt \
+         memcache \
          ssh2 \
          stats \
     && docker-php-ext-enable \
          apcu \
+         memcache \
          ssh2 \
          stats
 
