@@ -13,8 +13,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     libpng12-dev \
     libjpeg-dev \
     libxml2-dev \
+    memcached \
     mysql-client \
     poppler-utils \
+    supervisor \
     ttf-unifont \
     unzip \
     zip
@@ -27,7 +29,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libldap2-dev \
     libmcrypt-dev \
     libssh2-1-dev \
-    memcached \
     zlib1g-dev
 
 # Configure PHP modules
@@ -87,4 +88,9 @@ COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-no
 COPY php.ini /usr/local/etc/php/php.ini
 
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Add supervisor conf
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Docker startup
+CMD ["/usr/bin/supervisord"]
