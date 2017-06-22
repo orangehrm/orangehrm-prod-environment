@@ -1,6 +1,10 @@
 language: php
 sudo: required
- 
+
+env:
+  global:
+  - REPO=orangehrm/orangehrm-environment-images
+  - TAG=prod-5.6
 matrix:
     include:
         - os: linux
@@ -18,7 +22,7 @@ before_install:
   - php --version
   - docker version
   - composer self-update
-  - docker build -t orangehrm/orangehrm-environment-images:prod-5.6 docker-image
+  - docker build -t $REPO:$TAG docker-image
 
 install:
   - docker-compose up -d
@@ -32,6 +36,6 @@ script:
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-
+  - docker push $REPO:$TAG
 
 
