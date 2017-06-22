@@ -1,0 +1,32 @@
+<?php
+
+
+class WebContainerCest
+{
+    public function _before(FunctionalTester $I)
+    {
+    }
+
+    public function _after(FunctionalTester $I)
+    {
+    }
+
+
+    public function mysqlServerConnectionTest(FunctionalTester $I){
+        $I->wantTo("verify mysql container is linked with ubuntu container properly");
+        $I->runShellCommand("docker exec prod_web ping db -c 2");
+        $I->seeInShellOutput('2 packets transmitted, 2 packets received');
+    }
+
+
+     public function checkLoginToDBFromPhpmyadmin(AcceptanceTester $I){
+            $I->wantTo("log into mysql 5.5 server through phpmyadmin");
+            $I->amOnPage('http://localhost:9090');
+            $I->fillField('Username:', 'root');
+            $I->fillField('Password:', '1234');
+            $I->click('Go');
+            $I->see('Server: db');
+            $I->see("Server version: 5.5");
+     }
+
+}
