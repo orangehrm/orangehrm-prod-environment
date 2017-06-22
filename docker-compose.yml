@@ -1,11 +1,11 @@
 version: '2'
 services:
   web:
-    image: orangehrm/orangehrm-environment-images:uat-5.6
+    image: orangehrm/orangehrm-environment-images:prod-5.6
     ports:
-      - "6464:443"
+      - "443:443"
     volumes:
-      - ./ohrm_uat:/var/www/html
+      - ./html:/var/www/html
       - ./config/php5/php.ini:/usr/local/etc/php/php.ini
       - ./config/mysql-client:/etc/mysql
       - ./config/apache2/sites-available:/etc/apache2/sites-available
@@ -27,8 +27,8 @@ services:
     links:
       - db
     restart: always
-    hostname: orangehrm-uat-web
-    container_name: uat_web
+    hostname: orangehrm-prod-web
+    container_name: prod_web
 
   db:
     image: mysql:5.5
@@ -41,8 +41,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
     restart: always
-    hostname: orangehrm-uat-db
-    container_name: uat_mysql
+    hostname: orangehrm-prod-db
+    container_name: prod_mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -55,4 +55,4 @@ services:
     environment:
       PMA_HOST: db
     restart: always
-    container_name: enterprise_uat_phpmyadmin
+    container_name: prod_phpmyadmin
