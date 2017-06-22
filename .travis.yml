@@ -18,6 +18,7 @@ before_install:
   - php --version
   - docker version
   - composer self-update
+  - docker build -t orangehrm/orangehrm-environment-images:prod-5.6 docker-image
 
 install:
   - docker-compose up -d
@@ -28,6 +29,9 @@ script:
   - php vendor/bin/codecept run unit
   - php vendor/bin/codecept run functional
   - php vendor/bin/codecept run acceptance
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 
 

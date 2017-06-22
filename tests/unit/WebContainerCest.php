@@ -97,16 +97,6 @@ class WebContainerCest
         $I->seeInShellOutput('UnZip 6');
     }
 
-    public function checkPHPUnitVersion(UnitTester $I){
-        $I->wantTo("verify phpunit library is installed in the container");
-        $I->runShellCommand("docker exec prod_web phpunit --version");
-        $I->seeInShellOutput('PHPUnit 3.7.28');
-    }
-    public function checkGitInstallation(UnitTester $I){
-        $I->wantTo("verify git is installed in the container");
-        $I->runShellCommand("docker exec prod_web git --version");
-        $I->seeInShellOutput('git version 2.1.4');
-    }
 
     public function checkCurlInstallation(UnitTester $I){
         $I->wantTo("verify curl is installed in the container");
@@ -118,30 +108,6 @@ class WebContainerCest
         $I->wantTo("verify php 5.6 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");
         $I->seeInShellOutput('PHP 5.6');
-    }
-
-    public function checkNodeVersion(UnitTester $I){
-        $I->wantTo("verify node v4 is installed in the container");
-        $I->runShellCommand("docker exec prod_web node -v");
-        $I->seeInShellOutput('v4');
-    }
-
-    public function checkNPMVersion(UnitTester $I){
-        $I->wantTo("verify npm is installed in the container");
-        $I->runShellCommand("docker exec prod_web npm --version");
-        $I->seeInShellOutput("2");
-    }
-
-    public function checkNodemonInstallation(UnitTester $I){
-        $I->wantTo("verify nodemon is installed in the container");
-        $I->runShellCommand("docker exec prod_web nodemon");
-        $I->seeInShellOutput('Usage: nodemon');
-    }
-
-    public function checkBowerVersion(UnitTester $I){
-        $I->wantTo("verify bower is installed in the container");
-        $I->runShellCommand("docker exec prod_web bower --version");
-        $I->seeInShellOutput('1');
     }
 
 
@@ -193,55 +159,5 @@ class WebContainerCest
             $I->runShellCommand("docker exec prod_web dpkg -s bzip2");
             $I->seeInShellOutput("Version: 1.0.6-7+b3");
     }
-
-    public function checkSSHInstallation(UnitTester $I){
-            $I->wantTo("verify OpenSSH is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s openssh-server");
-            $I->seeInShellOutput("Version: 1:6.7p1-5+deb8u3");
-    }
-
-    public function checkSSHServiceRunning(UnitTester $I){
-            $I->wantTo("verify ssh is up and running in the container");
-            $I->runShellCommand("docker exec prod_web service ssh status");
-            $I->seeInShellOutput('sshd is running');
-    }
-
-    public function checkLibPAMLDAPInstallation(UnitTester $I){
-            $I->wantTo("verify libpam-ldap is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s libpam-ldap");
-            $I->seeInShellOutput("Version: 184-8.7+b1");
-    }
-
-    public function checkLibNSSLDAPInstallation(UnitTester $I){
-            $I->wantTo("verify libnss-ldap is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s libnss-ldap");
-            $I->seeInShellOutput("Version: 265-3+b1");
-    }
-
-    public function checkNSCDInstallation(UnitTester $I){
-            $I->wantTo("verify nscd is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s nscd");
-            $I->seeInShellOutput("Version: 2.19");
-    }
-
-    public function checkJavaVersion(UnitTester $I){
-            $I->wantTo("verify java is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s openjdk-7-jre");
-            $I->seeInShellOutput("Version: 7u131");
-    }
-
-    public function checkWgetVersion(UnitTester $I){
-            $I->wantTo("verify wget is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s wget");
-            $I->seeInShellOutput("Version: 1.16-1+deb8u2");
-    }
-
-
-
-
-
-
-
-
 
 }
