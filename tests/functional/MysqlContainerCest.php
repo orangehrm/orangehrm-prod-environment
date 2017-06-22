@@ -12,7 +12,4 @@ class MysqlContainerCest
     }
 
 
-    public function mySqlContainerTest(FunctionalTester $I){
-
-    }
 }

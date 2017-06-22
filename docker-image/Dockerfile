@@ -14,9 +14,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     libreoffice-writer \
     libpng12-dev \
     libjpeg-dev \
+    libssl-dev \
     libxml2-dev \
+    memcached \
     mysql-client \
     poppler-utils \
+    supervisor \
     ttf-unifont \
     unzip \
     zip
@@ -51,13 +54,20 @@ RUN  docker-php-ext-install \
      soap \
      zip
 
+
 # Install PHP extended community libraries
 RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
+    && docker-php-ext-configure \
+         mcrypt \
+    && docker-php-ext-install \
+         mcrypt \
     && pecl install \
+         memcache \
          ssh2 \
          stats \
     && docker-php-ext-enable \
          apcu \
+         memcache \
          ssh2 \
          stats
 
@@ -70,7 +80,6 @@ RUN apt-get purge -y --auto-remove \
         libjpeg62-turbo-dev \
         libjpeg-dev \
         libldap2-dev \
-        libmcrypt-dev \
         libpng12-dev \
         libssh2-1-dev \
         zlib1g-dev \
@@ -89,4 +98,9 @@ EXPOSE 443
 COPY ioncube/ioncube_loader_lin_5.5.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.5.so
 COPY php.ini /usr/local/etc/php/php.ini
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Add supervisor conf
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Docker startup
+CMD ["/usr/bin/supervisord"]
