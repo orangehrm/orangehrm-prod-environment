@@ -12,6 +12,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     libreoffice-writer \
     libpng12-dev \
     libjpeg-dev \
+    libssl-dev \
     libxml2-dev \
     memcached \
     mysql-client \
@@ -74,7 +75,6 @@ RUN apt-get purge -y --auto-remove \
         libjpeg62-turbo-dev \
         libjpeg-dev \
         libldap2-dev \
-        libmcrypt-dev \
         libpng12-dev \
         libssh2-1-dev \
         zlib1g-dev \
