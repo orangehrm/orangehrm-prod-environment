@@ -154,10 +154,4 @@ class WebContainerCest
             $I->seeInShellOutput('zlib');
     }
 
-    public function checkBzip2Installation(UnitTester $I){
-            $I->wantTo("verify bzip2 is installed in the container");
-            $I->runShellCommand("docker exec prod_web dpkg -s bzip2");
-            $I->seeInShellOutput("Version: 1.0.6-7+b3");
-    }
-
 }
