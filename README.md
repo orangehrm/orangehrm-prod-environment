@@ -1,5 +1,6 @@
-# orangehrm-prod-environment
-[![Build Status](https://travis-ci.org/orangehrm/orangehrm-prod-environment.svg?branch=5.6)](https://travis-ci.org/orangehrm/orangehrm-prod-environment)
+# OrangeHRM Production Environment for PHP 5.6
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Build Status](https://travis-ci.org/orangehrm/orangehrm-prod-environment.svg?branch=5.6)](https://travis-ci.org/orangehrm/orangehrm-prod-environment)
+
 ## Introduction
 orangehrm-prod-environment is a dockerized production environment for OrangeHRM. Usually it will take hours to configure and prepare the prod environment for orangehrm system. This project will save the support engineers / deployment time.
 
