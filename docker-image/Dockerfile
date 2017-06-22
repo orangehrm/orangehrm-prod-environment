@@ -57,8 +57,9 @@ RUN  docker-php-ext-install \
 RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
     && docker-php-ext-configure \
          mcrypt \
-    && pecl install \
+    && docker-php-ext-install \
          mcrypt \
+    && pecl install \
          memcache \
          ssh2 \
          stats \
