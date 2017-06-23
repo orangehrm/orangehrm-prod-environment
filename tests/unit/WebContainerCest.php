@@ -11,10 +11,16 @@ class WebContainerCest
     {
     }
 
-  public function checkContainerIsRunning(UnitTester $I){
+    public function checkContainerIsRunning(UnitTester $I){
         $I->wantTo("verify ubuntu container up and running");
         $I->runShellCommand("docker inspect -f {{.State.Running}} prod_web");
         $I->seeInShellOutput("true");
+    }
+
+    public function checkPHPVersion(UnitTester $I){
+        $I->wantTo("verify php 7.1 is installed in the container");
+        $I->runShellCommand("docker exec prod_web php --version");
+        $I->seeInShellOutput('PHP 7.1');
     }
 
     public function checkSupervisorInstallation(UnitTester $I){
@@ -110,12 +116,6 @@ class WebContainerCest
         $I->seeInShellOutput('curl 7.38');
     }
 
-    public function checkPHPVersion(UnitTester $I){
-        $I->wantTo("verify php 5.6 is installed in the container");
-        $I->runShellCommand("docker exec prod_web php --version");
-        $I->seeInShellOutput('PHP 5.6');
-    }
-
 
     public function checkPHPModules(UnitTester $I){
             $I->wantTo("verify required php modules are available");
@@ -154,7 +154,6 @@ class WebContainerCest
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
-            $I->seeInShellOutput('stats');
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
