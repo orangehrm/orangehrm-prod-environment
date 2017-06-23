@@ -61,7 +61,7 @@ class WebContainerCest
     }
 
     public function checkMemcachedInstallation(UnitTester $I){
-        $I->wantTo("verify supervisor is installed in the container");
+        $I->wantTo("verify memcached is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep memcached");
         $I->seeInShellOutput('memcached/now 1.4.21');
     }
