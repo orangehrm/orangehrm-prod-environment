@@ -83,7 +83,6 @@ RUN apt-get purge -y --auto-remove \
         libldap2-dev \
         libpng12-dev \
         libssh2-1-dev \
-        zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable apache mods.
