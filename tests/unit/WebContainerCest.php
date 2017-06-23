@@ -55,13 +55,13 @@ class WebContainerCest
     }
 
     public function checkMemcachedInstallation(UnitTester $I){
-        $I->wantTo("verify supervisor is installed in the container");
+        $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep memcached");
         $I->seeInShellOutput('memcached/now 1.4.21');
     }
 
     public function checkMemcacheServiceIsRunning(UnitTester $I){
-        $I->wantTo("verify apache is up and running in the container");
+        $I->wantTo("verify memcache is up and running in the container");
         $I->runShellCommand("docker exec prod_web ps aux | grep memcached");
         $I->seeInShellOutput('/usr/bin/memcached');
     }
