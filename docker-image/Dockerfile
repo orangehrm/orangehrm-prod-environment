@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     libldap2-dev \
     libmcrypt-dev \
+    libmemcached-dev \
     libssh2-1-dev \
     zlib1g-dev
 
