@@ -83,7 +83,13 @@ class WebContainerCest
         $I->wantTo("verify poppler-util is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep poppler-util");
         $I->seeInShellOutput('poppler-util');
-    }
+  }
+
+  public function checkLibSSLInstallation(UnitTester $I){
+          $I->wantTo("verify libssl-dev is installed in the container");
+          $I->runShellCommand("docker exec prod_web apt list --installed | grep libssl-dev");
+          $I->seeInShellOutput('libssl-dev');
+  }
 
     public function checkZipInstallation(UnitTester $I){
         $I->wantTo("verify zip library is installed in the container");
