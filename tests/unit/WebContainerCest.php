@@ -138,7 +138,6 @@ class WebContainerCest
             $I->seeInShellOutput('ldap');
             $I->seeInShellOutput('libxml');
             $I->seeInShellOutput('mbstring');
-            $I->seeInShellOutput('mcrypt');
             $I->seeInShellOutput('memcache');
             $I->seeInShellOutput('mysql');
             $I->seeInShellOutput('mysqli');
