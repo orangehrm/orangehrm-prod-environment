@@ -1,5 +1,5 @@
-# OrangeHRM Production Environment for PHP 5.6
-[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Build Status](https://travis-ci.org/orangehrm/orangehrm-prod-environment.svg?branch=php-5.6)](https://travis-ci.org/orangehrm/orangehrm-prod-environment)
+# OrangeHRM Production Environment for PHP 7.1
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Build Status](https://travis-ci.org/orangehrm/orangehrm-prod-environment.svg?branch=php-7.1)](https://travis-ci.org/orangehrm/orangehrm-prod-environment)
 
 ## Introduction
 orangehrm-prod-environment is a dockerized production environment for OrangeHRM. Usually it will take hours to configure and prepare the prod environment for orangehrm system. This project will save the support engineers / deployment time.
@@ -26,7 +26,7 @@ Make sure mentioned prerequisites are there in your host machine.
 
 | Container Name  | Service Name in docker-compose.yml | Description | IP Address | Used Ports |
 |-----------------|------------------------------------|-------------|------------|------------|
-| prod_web        | web                                | PHP 5.6     | 10.5.0.2   | 443        |
+| prod_web        | web                                | PHP 7.1     | 10.5.0.2   | 443        |
 | prod_mysql      | db                                 | MySQL 5.5   | 10.5.0.3   | 3306       |
 | prod_phpmyadmin | phpmyadmin                         | phpMyAdmin  | 10.5.0.4   | 9090       |
 
