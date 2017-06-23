@@ -127,7 +127,6 @@ class WebContainerCest
             $I->seeInShellOutput('curl');
             $I->seeInShellOutput('date');
             $I->seeInShellOutput('dom');
-            $I->seeInShellOutput('ereg');
             $I->seeInShellOutput('exif');
             $I->seeInShellOutput('fileinfo');
             $I->seeInShellOutput('filter');
