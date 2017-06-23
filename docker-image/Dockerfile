@@ -12,9 +12,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     libreoffice-writer \
     libpng12-dev \
     libjpeg-dev \
+    libssl-dev \
     libxml2-dev \
+    memcached \
     mysql-client \
     poppler-utils \
+    supervisor \
     ttf-unifont \
     unzip \
     zip
@@ -26,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     libldap2-dev \
     libmcrypt-dev \
+    libmemcached-dev \
     libssh2-1-dev \
     zlib1g-dev
 
@@ -73,10 +77,8 @@ RUN apt-get purge -y --auto-remove \
         libjpeg62-turbo-dev \
         libjpeg-dev \
         libldap2-dev \
-        libmcrypt-dev \
         libpng12-dev \
         libssh2-1-dev \
-        zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable apache mods.
@@ -93,5 +95,9 @@ EXPOSE 443
 #COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
 #COPY php.ini /usr/local/etc/php/php.ini
 
+# Add supervisor conf
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Docker startup
+CMD ["/usr/bin/supervisord"]
