@@ -24,6 +24,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
 
 #Install libraries required to compile PHP modules
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libaio1 \
     libfreetype6-dev \
     libgd-tools \
     libjpeg62-turbo-dev \
@@ -33,9 +34,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssh2-1-dev \
     zlib1g-dev
 
+#Install Oracle Database client
+RUN mkdir /opt/oracle
+COPY oracle-db /opt/oracle
+
+
+RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
+    && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
+    && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
+    && rm instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
+    && rm instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
+    && rm instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
+    && ln -s /opt/oracle/instantclient_11_2/libclntsh.so.11.1 /opt/oracle/instantclient_11_2/libclntsh.so \
+    && ln -s /opt/oracle/instantclient_11_2/libocci.so.11.1 /opt/oracle/instantclient_11_2/libocci.so \
+    && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
+    && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
+    && ldconfig
+
 # Configure PHP modules
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
-    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu
+    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
+    && docker-php-ext-configure mcrypt
 
 # Install PHP modules
 RUN  docker-php-ext-install \
@@ -45,6 +64,7 @@ RUN  docker-php-ext-install \
      gd \
      gettext \
      ldap \
+     mcrypt \
      mysql \
      mysqli \
      pdo \
@@ -55,17 +75,15 @@ RUN  docker-php-ext-install \
 
 # Install PHP extended community libraries
 RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-    && docker-php-ext-configure \
-         mcrypt \
-    && docker-php-ext-install \
-         mcrypt \
     && pecl install \
          memcache \
          ssh2 \
          stats \
+    && echo "instantclient,/opt/oracle/instantclient_11_2" | pecl install oci8-2.0.10 \
     && docker-php-ext-enable \
          apcu \
          memcache \
+         oci8 \
          ssh2 \
          stats
 
