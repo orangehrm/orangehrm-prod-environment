@@ -91,6 +91,12 @@ class WebContainerCest
           $I->seeInShellOutput('libssl-dev');
   }
 
+    public function checkLibSSHInstallation(UnitTester $I){
+            $I->wantTo("verify libssh2-1 is installed in the container");
+            $I->runShellCommand("docker exec prod_web apt list --installed | grep libssh2-1");
+            $I->seeInShellOutput('libssh2-1');
+    }
+
     public function checkZipInstallation(UnitTester $I){
         $I->wantTo("verify zip library is installed in the container");
         $I->runShellCommand("docker exec prod_web zip -v");
