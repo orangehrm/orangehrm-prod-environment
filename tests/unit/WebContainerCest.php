@@ -66,11 +66,17 @@ class WebContainerCest
         $I->seeInShellOutput('/usr/bin/memcached');
     }
 
-  public function checkMySQLClientInstallation(UnitTester $I){
+    public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep mysql-client");
         $I->seeInShellOutput('mysql-client/now 5.5');
     }
+
+     public function checkOracleClientInstallation(UnitTester $I){
+            $I->wantTo("verify oralce client is installed in the container");
+            $I->runShellCommand("docker exec prod_web sqlplus -v");
+            $I->seeInShellOutput('SQL*Plus: Release 11.2.0.2.0 Production');
+     }
 
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");

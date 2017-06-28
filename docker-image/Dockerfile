@@ -3,7 +3,6 @@ MAINTAINER Ridwan Shariffdeen <ridwan@orangehrmlive.com>
 
 WORKDIR /var/www/html
 
-
 #Install dependent software
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
     cron \
@@ -50,6 +49,11 @@ RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
     && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
     && ldconfig
+
+# Define Oracle variables
+ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
+ENV LD_LIBRARY_PATH="$ORACLE_HOME"
+ENV PATH="$ORACLE_HOME:$PATH"
 
 # Configure PHP modules
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
