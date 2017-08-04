@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkSupervisorInstallation(UnitTester $I){
         $I->wantTo("verify supervisor is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep supervisor");
-        $I->seeInShellOutput('supervisor/oldstable,now 3.0r1-1');
+        $I->seeInShellOutput('supervisor/now 3.0r1-1');
     }
 
     public function checkSupervisorServiceIsRunning(UnitTester $I){
@@ -45,7 +45,7 @@ class WebContainerCest
     public function checkCronInstallation(UnitTester $I){
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep cron");
-        $I->seeInShellOutput('cron/oldstable,now 3.0pl1-127+deb8u1');
+        $I->seeInShellOutput('cron/now 3.0pl1-127+deb8u1');
     }
 
     public function checkCronServiceIsRunning(UnitTester $I){
@@ -57,7 +57,7 @@ class WebContainerCest
     public function checkMemcachedInstallation(UnitTester $I){
         $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep memcached");
-        $I->seeInShellOutput('memcached/oldstable,oldstable,now 1.4.21-1.1+deb8u1');
+        $I->seeInShellOutput('memcached/now 1.4.21-1.1+deb8u1');
     }
 
     public function checkMemcacheServiceIsRunning(UnitTester $I){

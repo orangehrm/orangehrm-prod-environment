@@ -104,7 +104,7 @@ RUN apt-get purge -y --auto-remove \
         libpng12-dev \
         libssh2-1-dev \
     && rm -rf /var/lib/apt/lists/*
-    
+
 # Enable apache mods.
 RUN a2enmod php7 rewrite expires headers ssl
 
