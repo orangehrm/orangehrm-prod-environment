@@ -94,6 +94,17 @@ RUN docker-php-ext-enable \
          apcu \
          ssh2
 
+# Remove apps not needed and clean apt cache
+RUN apt-get purge -y --auto-remove \
+        libfreetype6-dev \
+        libgd-tools \
+        libjpeg62-turbo-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libpng12-dev \
+        libssh2-1-dev \
+    && rm -rf /var/lib/apt/lists/*
+    
 # Enable apache mods.
 RUN a2enmod php7 rewrite expires headers ssl
 
