@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkSupervisorInstallation(UnitTester $I){
         $I->wantTo("verify supervisor is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep supervisor");
-        $I->seeInShellOutput('supervisor/now 3.0');
+        $I->seeInShellOutput('supervisor/oldstable,now 3.0r1-1');
     }
 
     public function checkSupervisorServiceIsRunning(UnitTester $I){
@@ -45,7 +45,7 @@ class WebContainerCest
     public function checkCronInstallation(UnitTester $I){
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep cron");
-        $I->seeInShellOutput('cron/now 3.0');
+        $I->seeInShellOutput('cron/oldstable,now 3.0pl1-127+deb8u1');
     }
 
     public function checkCronServiceIsRunning(UnitTester $I){
@@ -57,7 +57,7 @@ class WebContainerCest
     public function checkMemcachedInstallation(UnitTester $I){
         $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep memcached");
-        $I->seeInShellOutput('memcached/now 1.4.21');
+        $I->seeInShellOutput('memcached/oldstable,oldstable,now 1.4.21-1.1+deb8u1');
     }
 
     public function checkMemcacheServiceIsRunning(UnitTester $I){
@@ -69,7 +69,7 @@ class WebContainerCest
     public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep mysql-client");
-        $I->seeInShellOutput('mysql-client/now 5.5');
+        $I->seeInShellOutput('mysql-client-5.5');
     }
 
      public function checkOracleClientInstallation(UnitTester $I){
@@ -139,7 +139,7 @@ class WebContainerCest
             $I->seeInShellOutput('curl');
             $I->seeInShellOutput('date');
             $I->seeInShellOutput('dom');
-            $I->seeInShellOutput('ereg');
+//            $I->seeInShellOutput('ereg');
             $I->seeInShellOutput('exif');
             $I->seeInShellOutput('fileinfo');
             $I->seeInShellOutput('filter');
@@ -153,7 +153,7 @@ class WebContainerCest
             $I->seeInShellOutput('mbstring');
             $I->seeInShellOutput('mcrypt');
             $I->seeInShellOutput('memcache');
-            $I->seeInShellOutput('mysql');
+//            $I->seeInShellOutput('mysql');
             $I->seeInShellOutput('mysqli');
             $I->seeInShellOutput('mysqlnd');
             $I->seeInShellOutput('PDO');
