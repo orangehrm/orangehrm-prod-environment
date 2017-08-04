@@ -69,7 +69,6 @@ RUN  docker-php-ext-install \
      gettext \
      ldap \
      mcrypt \
-     mysql \
      mysqli \
      pdo \
      pdo_mysql \
