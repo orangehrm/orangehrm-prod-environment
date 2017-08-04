@@ -77,29 +77,22 @@ RUN  docker-php-ext-install \
      zip
 
 # Install PHP extended community libraries
-RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-    && pecl install \
-         memcache \
-         ssh2 \
-         stats \
-    && echo "instantclient,/opt/oracle/instantclient_11_2" | pecl install oci8-2.0.10 \
-    && docker-php-ext-enable \
-         apcu \
-         memcache \
-         oci8 \
-         ssh2 \
-         stats
+RUN yes "" | pecl install apcu
 
-# Remove apps not needed and clean apt cache
-RUN apt-get purge -y --auto-remove \
-        libfreetype6-dev \
-        libgd-tools \
-        libjpeg62-turbo-dev \
-        libjpeg-dev \
-        libldap2-dev \
-        libpng12-dev \
-        libssh2-1-dev \
-    && rm -rf /var/lib/apt/lists/*
+#Compile ssh2 bindings extension for PHP7
+COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
+RUN cd /pecl-networking-ssh2-master && phpize \
+    && ./configure \
+    && make \
+    && make install
+
+# pecl/stats requires PHP (version >= 5.3.0, version <= 5.6.99), installed version is 7.1.6
+#RUN pecl install stats-1.0.5
+
+#enable php extensions
+RUN docker-php-ext-enable \
+         apcu \
+         ssh2
 
 # Enable apache mods.
 RUN a2enmod php7 rewrite expires headers ssl
