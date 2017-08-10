@@ -1,11 +1,13 @@
-FROM centos/systemd:latest
-MAINTAINER Ridwan Shariffdeen <ridwan@orangehrmlive.com>
+FROM centos/systemd
+
+MAINTAINER "Thulana" <thulana@orangehrm.us.com>
 
 WORKDIR /var/www/html
 
 # -----------------------------------------------------------------------------
 # Import the RPM GPG keys for Repositories
 # -----------------------------------------------------------------------------
+
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
 	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
@@ -15,11 +17,13 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 RUN yum -y install \
     httpd \
+    supervisor \
     libreoffice-common \
     libreoffice-draw \
     libreoffice-writer \
     cronie \
     memcached \
+    initscripts \
     mod_ssl \
     php56w \
    	php56w-cli \
@@ -31,6 +35,7 @@ RUN yum -y install \
    	php56w-gd \
    	php56w-xml \
    	php56w-pecl-apcu \
+   	php56w-pecl-memcache \
     zip \
     unzip \
     && yum -y update bash \
@@ -38,7 +43,9 @@ RUN yum -y install \
     && yum clean all
 
 
-#Install Oracle Database client
+RUN systemctl enable httpd.service
+RUN systemctl enable memcached.service
+
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
 
@@ -55,12 +62,10 @@ RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
     && ldconfig
 
-# Define Oracle variables
 ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
 ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
-
-
+ENV container docker
 # Update the default apache site with the config we created.
 COPY apache-config.conf /etc/httpd/000-default.conf
 
@@ -77,4 +82,3 @@ RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/mem
 COPY supervisord.conf /etc/supervisord.conf
 
 # Docker startup
-CMD ["/usr/bin/supervisord"]
