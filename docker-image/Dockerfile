@@ -88,7 +88,6 @@ EXPOSE 443
 COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
 COPY php.ini /usr/local/etc/php/php.ini
 
-RUN chmod +x /etc/init.d/supervisord
 RUN chkconfig --add supervisord
 RUN chkconfig supervisord --level 345 on
 # Add supervisor conf
