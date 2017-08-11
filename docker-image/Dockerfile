@@ -87,7 +87,7 @@ EXPOSE 443
 
 # Copy files
 COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
-COPY php.ini /usr/local/etc/php/php.ini
+COPY php.ini /etc/php.ini
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
