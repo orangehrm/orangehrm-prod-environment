@@ -46,7 +46,6 @@ RUN yum -y install \
    	php56w-gd \
    	php56w-xml \
    	php56w-pecl-apcu \
-   	php-pecl-ssh2 \
    	php56w-pecl-memcache \
     zip \
     unzip \
