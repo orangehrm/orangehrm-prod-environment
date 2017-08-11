@@ -100,7 +100,7 @@ class WebContainerCest
     public function checkLibSSHInstallation(UnitTester $I){
             $I->wantTo("verify libssh2 is installed in the container");
             $I->runShellCommand("docker exec prod_web rpm -qa | grep libssh2");
-            $I->seeInShellOutput('libssh2-devel');
+            $I->seeInShellOutput('libssh2');
     }
 
     public function checkZipInstallation(UnitTester $I){

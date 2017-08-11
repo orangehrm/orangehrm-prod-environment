@@ -17,6 +17,7 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 RUN yum -y install \
     httpd \
+    gcc \
     mysql \
     libaio-devel \
     poppler-utils \
@@ -25,6 +26,8 @@ RUN yum -y install \
     libreoffice-draw \
     libreoffice-writer \
     cronie \
+    libssh2 \
+    libssh2-devel \
     memcached \
     initscripts \
     mod_ssl \
@@ -43,6 +46,7 @@ RUN yum -y install \
    	php56w-gd \
    	php56w-xml \
    	php56w-pecl-apcu \
+   	php-pecl-ssh2 \
    	php56w-pecl-memcache \
     zip \
     unzip \
@@ -51,6 +55,9 @@ RUN yum -y install \
     && yum clean all
 
 
+RUN yes |pecl install -f ssh2
+RUN touch /etc/php.d/ssh2.ini
+RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 
