@@ -62,8 +62,8 @@ class WebContainerCest
 
     public function checkMemcacheServiceIsRunning(UnitTester $I){
         $I->wantTo("verify memcache is up and running in the container");
-        $I->runShellCommand("docker exec prod_web rpm -qa | grep memcached");
-        $I->seeInShellOutput('/usr/bin/memcached');
+        $I->runShellCommand("docker exec prod_web service memcached status");
+        $I->seeInShellOutput('active (running)');
     }
 
     public function checkMySQLClientInstallation(UnitTester $I){

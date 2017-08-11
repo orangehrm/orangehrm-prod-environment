@@ -14,8 +14,7 @@ services:
       - /etc/localtime:/etc/localtime
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
-    environment:
-      - privileged=true
+    privileged: true
 
     links:
       - db

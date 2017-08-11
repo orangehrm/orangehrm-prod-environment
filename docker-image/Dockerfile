@@ -33,6 +33,7 @@ RUN yum -y install \
    	php56w-mcrypt \
    	php56w-ssh2 \
    	php56w-stats \
+   	php56w-ldap \
    	php56w-bcmath \
    	php56w-devel \
    	php56w-mysql \
