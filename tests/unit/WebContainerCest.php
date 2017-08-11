@@ -166,7 +166,7 @@ class WebContainerCest
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
-            $I->seeInShellOutput('stats');
+            //$I->seeInShellOutput('stats');
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
