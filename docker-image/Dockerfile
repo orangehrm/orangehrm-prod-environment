@@ -17,6 +17,9 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 RUN yum -y install \
     httpd \
+    mysql \
+    libaio-devel \
+    poppler-utils \
     supervisor \
     libreoffice-common \
     libreoffice-draw \
@@ -27,6 +30,10 @@ RUN yum -y install \
     mod_ssl \
     php56w \
    	php56w-cli \
+   	php56w-mcrypt \
+   	php56w-ssh2 \
+   	php56w-stats \
+   	php56w-bcmath \
    	php56w-devel \
    	php56w-mysql \
    	php56w-pdo \
