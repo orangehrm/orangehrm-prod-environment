@@ -93,4 +93,4 @@ RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/mem
 COPY supervisord.conf /etc/supervisord.conf
 
 # Docker startup
-CMD ["/usr/bin/supervisord"]
+#CMD ["/usr/bin/supervisord"]
