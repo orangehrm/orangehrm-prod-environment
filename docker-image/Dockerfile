@@ -79,8 +79,14 @@ ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
 ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
 ENV container docker
+
 # Update the default apache site with the config we created.
-COPY apache-config.conf /etc/httpd/conf/000-default.conf
+RUN mkdir /etc/httpd/sites-available
+RUN mkdir /etc/httpd/sites-enabled
+RUN echo "IncludeOptional sites-enabled/*.conf" >> /etc/httpd/conf/httpd.conf
+COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
+RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
+
 
 # Export port 443
 EXPOSE 443
