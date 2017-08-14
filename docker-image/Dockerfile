@@ -1,39 +1,64 @@
-FROM php:5.6-apache
-MAINTAINER Ridwan Shariffdeen <ridwan@orangehrmlive.com>
+FROM centos/systemd
+
+MAINTAINER "Thulana" <thulana@orangehrm.us.com>
 
 WORKDIR /var/www/html
 
-#Install dependent software
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
-    cron \
+# -----------------------------------------------------------------------------
+# Import the RPM GPG keys for Repositories
+# -----------------------------------------------------------------------------
+
+RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+# -----------------------------------------------------------------------------
+# Apache + PHP
+# -----------------------------------------------------------------------------
+
+RUN yum -y install \
+    httpd \
+    gcc \
+    mysql \
+    libaio-devel \
+    poppler-utils \
+    supervisor \
     libreoffice-common \
     libreoffice-draw \
     libreoffice-writer \
-    libpng12-dev \
-    libjpeg-dev \
-    libssl-dev \
-    libxml2-dev \
+    cronie \
+    libssh2 \
+    libssh2-devel \
     memcached \
-    mysql-client \
-    poppler-utils \
-    supervisor \
-    ttf-unifont \
+    initscripts \
+    mod_ssl \
+    php56w \
+   	php56w-cli \
+   	php56w-mcrypt \
+   	php56w-ldap \
+   	php56w-bcmath \
+   	php56w-devel \
+   	php56w-mysql \
+   	php56w-pdo \
+   	php56w-pear \
+   	php56w-mbstring \
+   	php56w-soap \
+   	php56w-gd \
+   	php56w-xml \
+   	php56w-pecl-apcu \
+   	php56w-pecl-memcache \
+    zip \
     unzip \
-    zip
+    && yum -y update bash \
+    && rm -rf /var/cache/yum/* \
+    && yum clean all
 
-#Install libraries required to compile PHP modules
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libaio1 \
-    libfreetype6-dev \
-    libgd-tools \
-    libjpeg62-turbo-dev \
-    libldap2-dev \
-    libmcrypt-dev \
-    libmemcached-dev \
-    libssh2-1-dev \
-    zlib1g-dev
 
-#Install Oracle Database client
+RUN yes |pecl install -f ssh2
+RUN touch /etc/php.d/ssh2.ini
+RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
+RUN systemctl enable httpd.service
+RUN systemctl enable memcached.service
+
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
 
@@ -50,75 +75,23 @@ RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
     && ldconfig
 
-# Define Oracle variables
 ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
 ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
-
-# Configure PHP modules
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
-    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-    && docker-php-ext-configure mcrypt
-
-# Install PHP modules
-RUN  docker-php-ext-install \
-     bcmath \
-     calendar \
-     exif \
-     gd \
-     gettext \
-     ldap \
-     mcrypt \
-     mysql \
-     mysqli \
-     pdo \
-     pdo_mysql \
-     opcache \
-     soap \
-     zip
-
-# Install PHP extended community libraries
-RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-    && pecl install \
-         memcache \
-         ssh2 \
-         stats \
-    && echo "instantclient,/opt/oracle/instantclient_11_2" | pecl install oci8-2.0.10 \
-    && docker-php-ext-enable \
-         apcu \
-         memcache \
-         oci8 \
-         ssh2 \
-         stats
-
-# Remove apps not needed and clean apt cache
-RUN apt-get purge -y --auto-remove \
-        libfreetype6-dev \
-        libgd-tools \
-        libjpeg62-turbo-dev \
-        libjpeg-dev \
-        libldap2-dev \
-        libpng12-dev \
-        libssh2-1-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Enable apache mods.
-RUN a2enmod php5 rewrite expires headers ssl
-
+ENV container docker
 # Update the default apache site with the config we created.
-COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+COPY apache-config.conf /etc/httpd/conf/000-default.conf
 
 # Export port 443
 EXPOSE 443
 
 # Copy files
 COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
-COPY php.ini /usr/local/etc/php/php.ini
-
+COPY php.ini /etc/php.ini
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 # Docker startup
-CMD ["/usr/bin/supervisord"]
+#CMD ["/usr/bin/supervisord"]
