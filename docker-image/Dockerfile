@@ -80,7 +80,7 @@ ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
 ENV container docker
 # Update the default apache site with the config we created.
-COPY apache-config.conf /etc/httpd/conf/httpd.conf
+COPY apache-config.conf /etc/httpd/conf/000-default.conf
 
 # Export port 443
 EXPOSE 443
