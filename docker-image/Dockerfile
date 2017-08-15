@@ -31,21 +31,21 @@ RUN yum -y install \
     memcached \
     initscripts \
     mod_ssl \
-    php56w \
-   	php56w-cli \
-   	php56w-mcrypt \
-   	php56w-ldap \
-   	php56w-bcmath \
-   	php56w-devel \
-   	php56w-mysql \
-   	php56w-pdo \
-   	php56w-pear \
-   	php56w-mbstring \
-   	php56w-soap \
-   	php56w-gd \
-   	php56w-xml \
-   	php56w-pecl-apcu \
-   	php56w-pecl-memcache \
+    php70w \
+   	php70w-cli \
+   	php70w-mcrypt \
+   	php70w-ldap \
+   	php70w-bcmath \
+   	php70w-devel \
+   	php70w-mysql \
+   	php70w-pdo \
+   	php70w-pear \
+   	php70w-mbstring \
+   	php70w-soap \
+   	php70w-gd \
+   	php70w-xml \
+   	php70w-pecl-apcu \
+   	php70w-pecl-memcache \
     zip \
     unzip \
     && yum -y update bash \
