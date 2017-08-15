@@ -100,5 +100,8 @@ COPY php.ini /etc/php.ini
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
 COPY supervisord.conf /etc/supervisord.conf
 
+RUN service crond start
+RUN service httpd start
+RUN service memcached start
 # Docker startup
 #CMD ["/usr/bin/supervisord"]
