@@ -22,7 +22,6 @@ RUN yum -y install \
     libaio-devel \
     poppler-utils \
     supervisor \
-    libreoffice-common \
     libreoffice-draw \
     libreoffice-writer \
     cronie \
@@ -46,6 +45,7 @@ RUN yum -y install \
    	php70w-xml \
    	php70w-pecl-apcu \
    	php70w-pecl-memcache \
+   	php70w-pecl-memcached \
     zip \
     unzip \
     && yum -y update bash \
@@ -54,12 +54,14 @@ RUN yum -y install \
 
 
 #Compile ssh2 bindings extension for PHP7
-COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
-RUN cd /pecl-networking-ssh2-master && phpize \
-    && ./configure \
-    && make \
-    && make install
-
+#COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
+#RUN cd /pecl-networking-ssh2-master && phpize \
+#    && ./configure \
+#    && make \
+#    && make install
+RUN yes |pecl install -f ssh2-1.1.2
+RUN touch /etc/php.d/ssh2.ini
+RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
 
