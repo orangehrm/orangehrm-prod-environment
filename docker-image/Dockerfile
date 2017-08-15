@@ -92,7 +92,7 @@ RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
+COPY ioncube/ioncube_loader_lin_7.0.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.0.so
 COPY php.ini /etc/php.ini
 
 # Add supervisor conf
