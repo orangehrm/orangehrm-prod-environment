@@ -53,11 +53,12 @@ RUN yum -y install \
     && yum clean all
 
 
-RUN yes |pecl install -f ssh2
-RUN touch /etc/php.d/ssh2.ini
-RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
-RUN systemctl enable httpd.service
-RUN systemctl enable memcached.service
+#Compile ssh2 bindings extension for PHP7
+COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
+RUN cd /pecl-networking-ssh2-master && phpize \
+    && ./configure \
+    && make \
+    && make install
 
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
