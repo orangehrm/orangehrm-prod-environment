@@ -123,7 +123,7 @@ class WebContainerCest
     }
 
     public function checkPHPVersion(UnitTester $I){
-        $I->wantTo("verify php 5.6 is installed in the container");
+        $I->wantTo("verify php 7.0 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");
         $I->seeInShellOutput('PHP 7.0.21');
     }
@@ -152,7 +152,7 @@ class WebContainerCest
             $I->seeInShellOutput('libxml');
             $I->seeInShellOutput('mbstring');
             $I->seeInShellOutput('mcrypt');
-            //$I->seeInShellOutput('memcache');
+            $I->seeInShellOutput('memcached');
             $I->seeInShellOutput('mysql');
             $I->seeInShellOutput('mysqli');
            // $I->seeInShellOutput('mysqlnd');
