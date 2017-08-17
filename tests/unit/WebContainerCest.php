@@ -19,8 +19,10 @@ class WebContainerCest
 
     public function checkSupervisorInstallation(UnitTester $I){
         $I->wantTo("verify supervisor is installed in the container");
+
         $I->runShellCommand("docker exec prod_web rpm -qa | grep supervisor");
         $I->seeInShellOutput('supervisor-3.1.3');
+
     }
 
 //    public function checkSupervisorServiceIsRunning(UnitTester $I){
@@ -46,6 +48,7 @@ class WebContainerCest
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep cron");
         $I->seeInShellOutput('cronie-1.4.11');
+
     }
 
     public function checkCronServiceIsRunning(UnitTester $I){
@@ -58,6 +61,7 @@ class WebContainerCest
         $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep memcached");
         $I->seeInShellOutput('memcached-1.4.15');
+
     }
 
     public function checkMemcacheServiceIsRunning(UnitTester $I){
@@ -70,6 +74,7 @@ class WebContainerCest
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep mariadb");
         $I->seeInShellOutput('mariadb-5.5.52');
+
     }
 
      public function checkOracleClientInstallation(UnitTester $I){
@@ -126,6 +131,7 @@ class WebContainerCest
         $I->wantTo("verify php 7.0 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");
         $I->seeInShellOutput('PHP 7.0.21');
+
     }
 
 
@@ -139,7 +145,6 @@ class WebContainerCest
             $I->seeInShellOutput('curl');
             $I->seeInShellOutput('date');
             $I->seeInShellOutput('dom');
-            //$I->seeInShellOutput('ereg');
             $I->seeInShellOutput('exif');
             $I->seeInShellOutput('fileinfo');
             $I->seeInShellOutput('filter');
@@ -166,7 +171,9 @@ class WebContainerCest
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
+
             //$I->seeInShellOutput('stats');
+
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');

@@ -3,7 +3,7 @@ sudo: required
 
 env:
   global:
-  - REPO=thulana/orangehrm-environment-images
+  - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-7.0-centos
 
 matrix:

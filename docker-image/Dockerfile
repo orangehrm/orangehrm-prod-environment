@@ -1,6 +1,5 @@
 FROM centos/systemd
-
-MAINTAINER "Thulana" <thulana@orangehrm.us.com>
+LABEL authors= "Thulana <thulana@orangehrm.us.com>, Ridwan Shariffdeen <ridwan@orangehrmlive.com>"
 
 WORKDIR /var/www/html
 
@@ -83,6 +82,7 @@ ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
 ENV container docker
 
+
 # Update the default apache site with the config we created.
 RUN mkdir /etc/httpd/sites-available
 RUN mkdir /etc/httpd/sites-enabled
@@ -96,7 +96,9 @@ EXPOSE 443
 
 # Copy files
 COPY ioncube/ioncube_loader_lin_7.0.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.0.so
+
 COPY php.ini /etc/php.ini
+
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
