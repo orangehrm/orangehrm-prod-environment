@@ -1,5 +1,5 @@
 FROM centos/systemd
-LABEL authors= "Thulana <thulana@orangehrm.us.com>, Ridwan Shariffdeen <ridwan@orangehrmlive.com>"
+LABEL authors = "Thulana Kannangara <thulana@orangehrm.us.com>, Ridwan Shariffdeen <ridwan@orangehrmlive.com>"
 
 WORKDIR /var/www/html
 
