@@ -1,39 +1,66 @@
-FROM php:7.0-apache
-MAINTAINER Ridwan Shariffdeen <ridwan@orangehrmlive.com>
+FROM centos/systemd
+LABEL authors= "Thulana <thulana@orangehrm.us.com>, Ridwan Shariffdeen <ridwan@orangehrmlive.com>"
 
 WORKDIR /var/www/html
 
-#Install dependent software
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
-    cron \
-    libreoffice-common \
-    libreoffice-draw \
-    libreoffice-writer \
-    libpng12-dev \
-    libjpeg-dev \
-    libssl-dev \
-    libxml2-dev \
-    memcached \
-    mysql-client \
+# -----------------------------------------------------------------------------
+# Import the RPM GPG keys for Repositories
+# -----------------------------------------------------------------------------
+
+RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+# -----------------------------------------------------------------------------
+# Apache + PHP
+# -----------------------------------------------------------------------------
+
+RUN yum -y install \
+    httpd \
+    gcc \
+    mysql \
+    libaio-devel \
     poppler-utils \
     supervisor \
-    ttf-unifont \
+    libreoffice-draw \
+    libreoffice-writer \
+    cronie \
+    libssh2 \
+    libssh2-devel \
+    memcached \
+    initscripts \
+    mod_ssl \
+    php70w \
+   	php70w-cli \
+   	php70w-mcrypt \
+   	php70w-ldap \
+   	php70w-bcmath \
+   	php70w-devel \
+   	php70w-mysql \
+   	php70w-pdo \
+   	php70w-pear \
+   	php70w-mbstring \
+   	php70w-soap \
+   	php70w-gd \
+   	php70w-xml \
+   	php70w-pecl-apcu \
+   	php70w-pecl-memcache \
+   	php70w-pecl-memcached \
+    zip \
     unzip \
-    zip
+    && yum -y update bash \
+    && rm -rf /var/cache/yum/* \
+    && yum clean all
 
-#Install libraries required to compile PHP modules
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libaio1 \
-    libfreetype6-dev \
-    libgd-tools \
-    libjpeg62-turbo-dev \
-    libldap2-dev \
-    libmcrypt-dev \
-    libmemcached-dev \
-    libssh2-1-dev \
-    zlib1g-dev
 
-#Install Oracle Database client
+#Compile ssh2 bindings extension for PHP7
+#COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
+#RUN cd /pecl-networking-ssh2-master && phpize \
+#    && ./configure \
+#    && make \
+#    && make install
+RUN yes |pecl install -f ssh2-1.1.2
+RUN touch /etc/php.d/ssh2.ini
+RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
 
@@ -50,78 +77,35 @@ RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
     && ldconfig
 
-# Define Oracle variables
 ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
 ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
+ENV container docker
 
-# Configure PHP modules
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
-    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-    && docker-php-ext-configure mcrypt
-
-# Install PHP modules
-RUN  docker-php-ext-install \
-     bcmath \
-     calendar \
-     exif \
-     gd \
-     gettext \
-     ldap \
-     mcrypt \
-     mysqli \
-     pdo \
-     pdo_mysql \
-     opcache \
-     soap \
-     zip
-
-# Install PHP extended community libraries
-RUN yes "" | pecl install apcu
-
-#Compile ssh2 bindings extension for PHP7
-COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
-RUN cd /pecl-networking-ssh2-master && phpize \
-    && ./configure \
-    && make \
-    && make install
-
-# pecl/stats requires PHP (version >= 5.3.0, version <= 5.6.99), installed version is 7.1.6
-#RUN pecl install stats-1.0.5
-
-#enable php extensions
-RUN docker-php-ext-enable \
-         apcu \
-         ssh2
-
-# Remove apps not needed and clean apt cache
-RUN apt-get purge -y --auto-remove \
-        libfreetype6-dev \
-        libgd-tools \
-        libjpeg62-turbo-dev \
-        libjpeg-dev \
-        libldap2-dev \
-        libpng12-dev \
-        libssh2-1-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Enable apache mods.
-RUN a2enmod php7 rewrite expires headers ssl
 
 # Update the default apache site with the config we created.
-COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+RUN mkdir /etc/httpd/sites-available
+RUN mkdir /etc/httpd/sites-enabled
+RUN echo "IncludeOptional sites-enabled/*.conf" >> /etc/httpd/conf/httpd.conf
+COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
+RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
+
 
 # Export port 443
 EXPOSE 443
 
 # Copy files
 COPY ioncube/ioncube_loader_lin_7.0.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.0.so
-COPY php.ini /usr/local/etc/php/php.ini
+
+COPY php.ini /etc/php.ini
 
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
+RUN systemctl enable httpd.service
+RUN systemctl enable memcached.service
+RUN systemctl enable crond.service
 # Docker startup
-CMD ["/usr/bin/supervisord"]
+#CMD ["/usr/bin/supervisord"]
