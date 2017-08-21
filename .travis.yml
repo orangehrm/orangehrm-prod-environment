@@ -5,6 +5,7 @@ env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-5.6
+  matrix:
   - TEST_SUITE=unit
   - TEST_SUITE=functional
   - TEST_SUITE=acceptance
