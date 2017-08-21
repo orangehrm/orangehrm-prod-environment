@@ -33,14 +33,13 @@ install:
   - composer install
   - docker ps
 
+stage: test
+script:
+  - php vendor/bin/codecept run $TEST_SUITE
 
 
 jobs:
   include:
-    - stage: test
-      script:
-        - php vendor/bin/codecept run $TEST_SUITE
-
     - stage: deploy
       env:
       install: skip
