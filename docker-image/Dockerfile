@@ -29,22 +29,22 @@ RUN yum -y install \
     memcached \
     initscripts \
     mod_ssl \
-    php70w \
-   	php70w-cli \
-   	php70w-mcrypt \
-   	php70w-ldap \
-   	php70w-bcmath \
-   	php70w-devel \
-   	php70w-mysql \
-   	php70w-pdo \
-   	php70w-pear \
-   	php70w-mbstring \
-   	php70w-soap \
-   	php70w-gd \
-   	php70w-xml \
-   	php70w-pecl-apcu \
-   	php70w-pecl-memcache \
-   	php70w-pecl-memcached \
+    php71w \
+   	php71w-cli \
+   	php71w-mcrypt \
+   	php71w-ldap \
+   	php71w-bcmath \
+   	php71w-devel \
+   	php71w-mysql \
+   	php71w-pdo \
+   	php71w-pear \
+   	php71w-mbstring \
+   	php71w-soap \
+   	php71w-gd \
+   	php71w-xml \
+   	php71w-pecl-apcu \
+   	php71w-pecl-memcache \
+   	php71w-pecl-memcached \
     zip \
     unzip \
     && yum -y update bash \
@@ -95,7 +95,7 @@ RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_7.0.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.0.so
+COPY ioncube/ioncube_loader_lin_7.1.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.1.so
 
 COPY php.ini /etc/php.ini
 
