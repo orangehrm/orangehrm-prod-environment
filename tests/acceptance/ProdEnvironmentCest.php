@@ -15,7 +15,7 @@ class ProdEnvironmentCest
 
     public function checkLoginToDBFromPhpmyadmin(AcceptanceTester $I){
         $I->wantTo("log into mysql 5.5 server through phpmyadmin");
-        $I->amOnPage('/');
+        $I->amOnPage('http://0.0.0.0:9090');
         $I->fillField('Username:', 'root');
         $I->fillField('Password:', '1234');
         $I->click('Go');
