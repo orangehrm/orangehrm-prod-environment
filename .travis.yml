@@ -2,7 +2,6 @@ language: php
 sudo: required
 dist: trusty
 
-stage: test
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
