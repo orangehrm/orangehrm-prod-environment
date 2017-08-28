@@ -31,7 +31,9 @@ jobs:
   include:
     - stage: test
       script: php vendor/bin/codecept run unit
+    - stage: test
       script: php vendor/bin/codecept run functional
+    - stage: test
       script: php vendor/bin/codecept run acceptance
     - stage: push to dockerhub
       env:
