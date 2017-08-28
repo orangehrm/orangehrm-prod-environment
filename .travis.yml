@@ -35,9 +35,6 @@ script: php vendor/bin/codecept run $TEST
 jobs:
   include:
     - stage: push to dockerhub
-      env:
-      script: skip
-      install: skip
       after_script:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker push $REPO:$TAG
