@@ -29,6 +29,7 @@ before_install:
 install:
   - composer install
   - docker-compose up -d
+  - docker ps
 
 script: php vendor/bin/codecept run $TEST
 
