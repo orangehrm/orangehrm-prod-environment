@@ -2,10 +2,15 @@ language: php
 sudo: required
 dist: trusty
 
+stage: test
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-5.6
+  matrix:
+  - TEST=unit
+  - TEST=functional
+  - TEST=acceptance
 services:
   - docker
 
@@ -29,14 +34,9 @@ script: php vendor/bin/codecept run $TEST
 
 jobs:
   include:
-    - stage: test
-      script: php vendor/bin/codecept run unit
-      script: php vendor/bin/codecept run functional
-      script: php vendor/bin/codecept run acceptance
     - stage: push to dockerhub
       env:
       script: skip
-      install: skip
       after_script:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker push $REPO:$TAG
