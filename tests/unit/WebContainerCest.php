@@ -21,7 +21,7 @@ class WebContainerCest
         $I->wantTo("verify supervisor is installed in the container");
 
         $I->runShellCommand("docker exec prod_web rpm -qa | grep supervisor");
-        $I->seeInShellOutput('supervisor-3.1.3');
+        $I->seeInShellOutput('supervisor-3.1');
 
     }
 
@@ -73,7 +73,7 @@ class WebContainerCest
     public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep mariadb");
-        $I->seeInShellOutput('mariadb-5.5.52');
+        $I->seeInShellOutput('mariadb-5.5');
 
     }
 
@@ -124,13 +124,13 @@ class WebContainerCest
     public function checkCurlInstallation(UnitTester $I){
         $I->wantTo("verify curl is installed in the container");
         $I->runShellCommand("docker exec prod_web curl --version");
-        $I->seeInShellOutput('curl 7.29.0');
+        $I->seeInShellOutput('curl 7.29');
     }
 
     public function checkPHPVersion(UnitTester $I){
         $I->wantTo("verify php 7.0 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");
-        $I->seeInShellOutput('PHP 7.0.21');
+        $I->seeInShellOutput('PHP 7.0');
 
     }
 
