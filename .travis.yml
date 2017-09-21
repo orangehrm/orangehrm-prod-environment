@@ -4,7 +4,7 @@ sudo: required
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
-  - TAG=prod-7.1
+  - TAG=prod-7.1-debian
 
 matrix:
     include:
