@@ -4,8 +4,7 @@ sudo: required
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
-  - TAG=prod-7.0-centos
-
+  - TAG=prod-7.0
 matrix:
     include:
         - os: linux
