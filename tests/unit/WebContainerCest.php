@@ -21,7 +21,7 @@ class WebContainerCest
         $I->wantTo("verify supervisor is installed in the container");
 
         $I->runShellCommand("docker exec prod_web rpm -qa | grep supervisor");
-        $I->seeInShellOutput('supervisor-3.1.3');
+        $I->seeInShellOutput('supervisor-3.1');
 
     }
 
@@ -73,7 +73,7 @@ class WebContainerCest
     public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep mariadb");
-        $I->seeInShellOutput('mariadb-5.5.52');
+        $I->seeInShellOutput('mariadb-5.5');
 
     }
 
