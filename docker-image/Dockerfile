@@ -41,12 +41,12 @@ RUN yum -y install \
    	php56w-pdo \
    	php56w-pear \
    	php56w-mbstring \
-   	php56w-mongodb \
    	php56w-soap \
    	php56w-gd \
    	php56w-xml \
    	php56w-pecl-apcu \
    	php56w-pecl-memcache \
+   	php56w-pecl-mongodb \
     zip \
     unzip \
     && yum -y update bash \
