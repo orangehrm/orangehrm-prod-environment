@@ -98,7 +98,11 @@ COPY php.ini /etc/php.ini
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisord.conf
+#COPY supervisord.conf /etc/supervisord.conf
+
+COPY fonts/ /usr/share/fonts/orangehrm
+
+RUN fc-cache -f /usr/share/fonts/
 
 # Docker startup
 #CMD ["/usr/bin/supervisord"]
