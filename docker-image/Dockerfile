@@ -38,6 +38,7 @@ RUN yum -y install \
    	php56w-bcmath \
    	php56w-devel \
    	php56w-mysql \
+   	php56w-opcache \
    	php56w-pdo \
    	php56w-pear \
    	php56w-mbstring \
