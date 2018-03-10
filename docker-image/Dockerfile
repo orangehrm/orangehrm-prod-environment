@@ -8,8 +8,10 @@ WORKDIR /var/www/html
 # -----------------------------------------------------------------------------
 
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm \
+	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
+COPY ./repos/mariadb.repo /etc/yum.repos.d/
 # -----------------------------------------------------------------------------
 # Apache + PHP
 # -----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 RUN yum -y install \
     httpd \
     gcc \
-    mysql \
+    MariaDB-client \
     libaio-devel \
     poppler-utils \
     supervisor \
