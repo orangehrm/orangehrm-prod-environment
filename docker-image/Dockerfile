@@ -37,7 +37,7 @@ RUN yum -y install \
    	php71w-ldap \
    	php71w-bcmath \
    	php71w-devel \
-   	php71w-mysql \
+   	php71w-mysqlnd \
    	php71w-pdo \
    	php71w-pear \
    	php71w-mbstring \
