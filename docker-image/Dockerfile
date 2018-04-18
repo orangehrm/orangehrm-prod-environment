@@ -28,25 +28,27 @@ RUN yum -y install \
     cronie \
     libssh2 \
     libssh2-devel \
+    libmcrypt \
+    libmcrypt-devel \
     memcached \
     initscripts \
     mod_ssl \
-    php71w \
-   	php71w-cli \
-   	php71w-mcrypt \
-   	php71w-ldap \
-   	php71w-bcmath \
-   	php71w-devel \
-   	php71w-mysql \
-   	php71w-pdo \
-   	php71w-pear \
-   	php71w-mbstring \
-   	php71w-soap \
-   	php71w-gd \
-   	php71w-xml \
-   	php71w-pecl-apcu \
-   	php71w-pecl-memcache \
-   	php71w-pecl-memcached \
+    php72w \
+   	php72w-cli \
+   	php72w-mcrypt \
+   	php72w-ldap \
+   	php72w-bcmath \
+   	php72w-devel \
+   	php72w-mysql \
+   	php72w-pdo \
+   	php72w-pear \
+   	php72w-mbstring \
+   	php72w-soap \
+   	php72w-gd \
+   	php72w-xml \
+   	php72w-pecl-apcu \
+   	php72w-pecl-memcache \
+   	php72w-pecl-memcached \
     zip \
     unzip \
     && yum -y update bash \
@@ -97,7 +99,7 @@ RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_7.1.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.1.so
+COPY ioncube/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.2.so
 
 COPY php.ini /etc/php.ini
 
