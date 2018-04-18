@@ -35,7 +35,6 @@ RUN yum -y install \
     mod_ssl \
     php72w \
    	php72w-cli \
-   	php72w-mcrypt \
    	php72w-ldap \
    	php72w-bcmath \
    	php72w-devel \
@@ -55,14 +54,8 @@ RUN yum -y install \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
-
-#Compile ssh2 bindings extension for PHP7
-#COPY pecl-networking-ssh2-master /pecl-networking-ssh2-master
-#RUN cd /pecl-networking-ssh2-master && phpize \
-#    && ./configure \
-#    && make \
-#    && make install
 RUN yes |pecl install -f ssh2-1.1.2
+RUN pecl install -f mcrypt-1.0.1
 RUN touch /etc/php.d/ssh2.ini
 RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
