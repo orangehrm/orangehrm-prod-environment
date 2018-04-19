@@ -56,6 +56,8 @@ RUN yum -y install \
 
 RUN yes |pecl install -f ssh2-1.1.2
 RUN pecl install -f mcrypt-1.0.1
+RUN pecl install -f stats-2.0.3
+RUN pecl install -f ast-0.1.6
 RUN touch /etc/php.d/ssh2.ini
 RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
