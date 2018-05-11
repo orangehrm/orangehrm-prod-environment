@@ -86,7 +86,7 @@ class WebContainerCest
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
         $I->runShellCommand("docker exec prod_web libreoffice --version");
-        $I->seeInShellOutput('LibreOffice 5.0');
+        $I->seeInShellOutput('LibreOffice 5.');
     }
 
 
