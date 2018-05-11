@@ -17,7 +17,4 @@ class WebContainerCest
         $I->runShellCommand("docker exec prod_web ping db -c 2");
         $I->seeInShellOutput('2 packets transmitted, 2 received');
     }
-
-
-
 }

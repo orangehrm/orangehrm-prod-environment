@@ -172,11 +172,14 @@ class WebContainerCest
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
 
-            //$I->seeInShellOutput('stats');
+            $I->seeInShellOutput('stats');
+            $I->seeInShellOutput('ast');
 
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
+            $I->seeInShellOutput('mcrypt');
+
     }
 
 }
