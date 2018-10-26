@@ -33,22 +33,22 @@ RUN yum -y install \
     memcached \
     initscripts \
     mod_ssl \
-    php71w \
-   	php71w-cli \
-   	php71w-mcrypt \
-   	php71w-ldap \
-   	php71w-bcmath \
-   	php71w-devel \
-   	php71w-mysqlnd \
-   	php71w-pdo \
-   	php71w-pear \
-   	php71w-mbstring \
-   	php71w-soap \
-   	php71w-gd \
-   	php71w-xml \
-   	php71w-pecl-apcu \
-   	php71w-pecl-memcache \
-   	php71w-pecl-memcached \
+    php72w \
+   	php72w-cli \
+   	php72w-mcrypt \
+   	php72w-ldap \
+   	php72w-bcmath \
+   	php72w-devel \
+   	php72w-mysqlnd \
+   	php72w-pdo \
+   	php72w-pear \
+   	php72w-mbstring \
+   	php72w-soap \
+   	php72w-gd \
+   	php72w-xml \
+   	php72w-pecl-apcu \
+   	php72w-pecl-memcache \
+   	php72w-pecl-memcached \
     zip \
     unzip \
     urw-fonts.noarch \
