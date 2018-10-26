@@ -25,34 +25,38 @@ RUN yum -y install \
     supervisor \
     libreoffice-draw \
     libreoffice-writer \
+    libmcrypt \
+    libmcrypt-devel \
     cronie \
     libssh2 \
     libssh2-devel \
-    libmcrypt \
-    libmcrypt-devel \
     memcached \
     initscripts \
     mod_ssl \
-    php72w \
-   	php72w-cli \
-   	php72w-ldap \
-   	php72w-bcmath \
-   	php72w-devel \
-   	php72w-mysql \
-   	php72w-pdo \
-   	php72w-pear \
-   	php72w-mbstring \
-   	php72w-soap \
-   	php72w-gd \
-   	php72w-xml \
-   	php72w-pecl-apcu \
-   	php72w-pecl-memcache \
-   	php72w-pecl-memcached \
+    php71w \
+   	php71w-cli \
+   	php71w-mcrypt \
+   	php71w-ldap \
+   	php71w-bcmath \
+   	php71w-devel \
+   	php71w-mysqlnd \
+   	php71w-pdo \
+   	php71w-pear \
+   	php71w-mbstring \
+   	php71w-soap \
+   	php71w-gd \
+   	php71w-xml \
+   	php71w-pecl-apcu \
+   	php71w-pecl-memcache \
+   	php71w-pecl-memcached \
     zip \
     unzip \
+    urw-fonts.noarch \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
+
+
 
 RUN yes |pecl install -f ssh2-1.1.2
 RUN pecl install -f mcrypt-1.0.1
