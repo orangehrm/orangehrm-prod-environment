@@ -86,7 +86,7 @@ class WebContainerCest
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
         $I->runShellCommand("docker exec prod_web libreoffice --version");
-        $I->seeInShellOutput('LibreOffice 5.0.6.2 00');
+        $I->seeInShellOutput('LibreOffice');
     }
 
 
@@ -160,7 +160,7 @@ class WebContainerCest
             $I->seeInShellOutput('memcached');
             $I->seeInShellOutput('mysql');
             $I->seeInShellOutput('mysqli');
-           // $I->seeInShellOutput('mysqlnd');
+            $I->seeInShellOutput('mysqlnd');
             $I->seeInShellOutput('PDO');
             $I->seeInShellOutput('pdo_mysql');
             $I->seeInShellOutput('pdo_sqlite');
