@@ -11,7 +11,6 @@ services:
       - ./config/apache2/cert:/etc/apache2/cert
       - ./logs/ubuntu_logs:/var/log/apache2
       - /etc/localtime:/etc/localtime
-
     links:
       - db
     restart: always
@@ -19,11 +18,10 @@ services:
     container_name: prod_web
 
   db:
-    image: mysql:5.5
+    image: mariadb:10.2
     expose:
       - "3306"
     volumes:
-      - ./config/mysql-server:/etc/mysql
       - ./logs/mysql_logs:/var/log
       - /etc/localtime:/etc/localtime
     environment:

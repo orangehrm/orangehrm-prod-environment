@@ -13,6 +13,8 @@ RUN apt-get update &&  apt-get install -y \
     poppler-utils \
     fonts-urw-base35 \
     unzip \
+    iputils-ping \
+    libreoffice \
     zip
 
 #add third party repository
@@ -92,10 +94,7 @@ RUN ln -s /etc/php/7.1/mods-available/stats.ini /etc/php/7.1/cli/conf.d/stats.in
 RUN ln -s /etc/php/7.1/mods-available/stats.ini /etc/php/7.1/apache2/conf.d/stats.ini
 
 # Enable apache mods.
-RUN a2enmod rewrite expires headers ssl
-
-# Update the default apache site with the config we created.
-# COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+RUN a2enmod rewrite expires headers ssl vhost_alias
 
 # Export port 443
 EXPOSE 443
