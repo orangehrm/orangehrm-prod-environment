@@ -1,124 +1,115 @@
-FROM php:5.6-apache
-MAINTAINER Ridwan Shariffdeen <ridwan@orangehrmlive.com>
+FROM ubuntu:18.04
+MAINTAINER Nipuna Sankalpa <nipuna@orangehrmlive.com>
 
 WORKDIR /var/www/html
 
 #Install dependent software
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
+RUN apt-get update &&  apt-get install -y \
     cron \
-    libreoffice-common \
-    libreoffice-draw \
-    libreoffice-writer \
-    libpng12-dev \
-    libjpeg-dev \
+    systemd \
+    software-properties-common \
     libssl-dev \
     libxml2-dev \
-    memcached \
-    mysql-client \
     poppler-utils \
-    supervisor \
-    ttf-unifont \
+    fonts-urw-base35 \
     unzip \
     zip
 
+#add third party repository
+RUN add-apt-repository ppa:ondrej/php
+
+#install mariadb client
+RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+RUN add-apt-repository 'deb [arch=amd64] http://mirror.zol.co.zw/mariadb/repo/10.2/ubuntu bionic main'
+
+#install middleware services
+RUN apt-get update &&  apt-get install -y \
+    apache2 \
+    mariadb-client-10.2
+
 #Install libraries required to compile PHP modules
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     libaio1 \
     libfreetype6-dev \
-    libgd-tools \
-    libjpeg62-turbo-dev \
-    libldap2-dev \
-    libmcrypt-dev \
     libmemcached-dev \
     libssh2-1-dev \
     zlib1g-dev
 
-#Install Oracle Database client
-RUN mkdir /opt/oracle
-COPY oracle-db /opt/oracle
+#Install PHP and pecl
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    php7.1 \
+    php7.1-dev \
+    pkg-config \
+    libbson-1.0-0 \
+    libmongoc-1.0-0 \
+    php-pear \
+    php-xml \
+    php7.1-xml \
+    php7.1-bcmath \
+    php7.1-json \
+    php7.1-bz2 \
+    php7.1-curl \
+    php7.1-gd \
+    php7.1-gmp \
+    php7.1-ldap \
+    php7.1-mbstring \
+    php7.1-mcrypt \
+    php7.1-soap \
+    php7.1-sqlite3 \
+    php7.1-mysql \
+    php7.1-zip
 
+# Install PHP modules via pecl
+RUN pecl install ssh2-1.1.2
+RUN pecl install igbinary-2.0.8
+RUN pecl install memcached-3.0.4
+RUN pecl install stats-2.0.3
+RUN pecl install ast-1.0.0
+RUN pecl install apcu-5.1.14
 
-RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-    && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-    && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-    && ln -s /opt/oracle/instantclient_11_2/libclntsh.so.11.1 /opt/oracle/instantclient_11_2/libclntsh.so \
-    && ln -s /opt/oracle/instantclient_11_2/libocci.so.11.1 /opt/oracle/instantclient_11_2/libocci.so \
-    && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
-    && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
-    && ldconfig
+RUN echo "extension=apcu.so" > /etc/php/7.1/mods-available/apcu.ini
+RUN ln -s /etc/php/7.1/mods-available/apcu.ini /etc/php/7.1/cli/conf.d/apcu.ini
+RUN ln -s /etc/php/7.1/mods-available/apcu.ini /etc/php/7.1/apache2/conf.d/apcu.ini
 
-# Define Oracle variables
-ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
-ENV LD_LIBRARY_PATH="$ORACLE_HOME"
-ENV PATH="$ORACLE_HOME:$PATH"
+RUN echo "extension=ast.so" > /etc/php/7.1/mods-available/ast.ini
+RUN ln -s /etc/php/7.1/mods-available/ast.ini /etc/php/7.1/cli/conf.d/ast.ini
+RUN ln -s /etc/php/7.1/mods-available/ast.ini /etc/php/7.1/apache2/conf.d/ast.ini
 
-# Configure PHP modules
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu  \
-    && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-    && docker-php-ext-configure mcrypt
+RUN echo "extension=ssh2.so" > /etc/php/7.1/mods-available/ssh2.ini
+RUN ln -s /etc/php/7.1/mods-available/ssh2.ini /etc/php/7.1/cli/conf.d/ssh2.ini
+RUN ln -s /etc/php/7.1/mods-available/ssh2.ini /etc/php/7.1/apache2/conf.d/ssh2.ini
 
-# Install PHP modules
-RUN  docker-php-ext-install \
-     bcmath \
-     calendar \
-     exif \
-     gd \
-     gettext \
-     ldap \
-     mcrypt \
-     mysql \
-     mysqli \
-     pdo \
-     pdo_mysql \
-     opcache \
-     soap \
-     zip
+RUN echo "extension=igbinary.so" > /etc/php/7.1/mods-available/igbinary.ini
+RUN ln -s /etc/php/7.1/mods-available/igbinary.ini /etc/php/7.1/cli/conf.d/igbinary.ini
+RUN ln -s /etc/php/7.1/mods-available/igbinary.ini /etc/php/7.1/apache2/conf.d/igbinary.ini
 
-# Install PHP extended community libraries
-RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
-    && pecl install \
-         memcache \
-         ssh2 \
-         stats \
-    && echo "instantclient,/opt/oracle/instantclient_11_2" | pecl install oci8-2.0.10 \
-    && docker-php-ext-enable \
-         apcu \
-         memcache \
-         oci8 \
-         ssh2 \
-         stats
+RUN echo "extension=memcached.so" > /etc/php/7.1/mods-available/memcached.ini
+RUN ln -s /etc/php/7.1/mods-available/memcached.ini /etc/php/7.1/cli/conf.d/memcached.ini
+RUN ln -s /etc/php/7.1/mods-available/memcached.ini /etc/php/7.1/apache2/conf.d/memcached.ini
 
-# Remove apps not needed and clean apt cache
-RUN apt-get purge -y --auto-remove \
-        libfreetype6-dev \
-        libgd-tools \
-        libjpeg62-turbo-dev \
-        libjpeg-dev \
-        libldap2-dev \
-        libpng12-dev \
-        libssh2-1-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN echo "extension=stats.so" > /etc/php/7.1/mods-available/stats.ini
+RUN ln -s /etc/php/7.1/mods-available/stats.ini /etc/php/7.1/cli/conf.d/stats.ini
+RUN ln -s /etc/php/7.1/mods-available/stats.ini /etc/php/7.1/apache2/conf.d/stats.ini
 
 # Enable apache mods.
-RUN a2enmod php5 rewrite expires headers ssl
+RUN a2enmod rewrite expires headers ssl
 
 # Update the default apache site with the config we created.
-COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+# COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Export port 443
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.6.so
-COPY php.ini /usr/local/etc/php/php.ini
+COPY ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303/ioncube_loader_lin_7.1.so
+RUN echo "zend_extension=ioncube_loader_lin_7.1.so" > /etc/php/7.1/mods-available/ioncube.ini
+RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/cli/conf.d/00-ioncube.ini
+RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/apache2/conf.d/00-ioncube.ini
 
+#remove php 7.2 additional modules
+RUN apt-get remove -y php7.2-*
 
-# Add supervisor conf
-RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN service apache2 start
 
 # Docker startup
-CMD ["/usr/bin/supervisord"]
+CMD ["/sbin/init"]
