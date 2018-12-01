@@ -32,7 +32,7 @@ class WebContainerCest
     public function checkCronInstallation(UnitTester $I){
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web apt list --installed | grep cron");
-        $I->seeInShellOutput('cron/now 3.0');
+        $I->seeInShellOutput('cron/bionic,now 3.0');
     }
 
     public function checkCronServiceIsRunning(UnitTester $I){
@@ -50,7 +50,7 @@ class WebContainerCest
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
         $I->runShellCommand("docker exec prod_web libreoffice --version");
-        $I->seeInShellOutput('LibreOffice 4.3.3.2');
+        $I->seeInShellOutput('LibreOffice 6.0.6.2');
     }
 
   public function checkPopplerUtilInstallation(UnitTester $I){
