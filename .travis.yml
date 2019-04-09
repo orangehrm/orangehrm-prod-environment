@@ -52,7 +52,7 @@ jobs:
       - docker-compose up -d
       - docker ps
     script:
-      - echo "Script for testing
+      - echo $REPO
     after_script:
       - echo "tests success"
 #    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
