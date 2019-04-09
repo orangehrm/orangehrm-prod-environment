@@ -41,11 +41,14 @@ jobs:
     - stage: Deploy to Docker Hub
       env:
         - TEST_SUITE=None
+      before_install: skip
+      install: skip
+      before_script:
+        - docker build -t $REPO:$TAG docker-image
       script:
-        - echo "this is the script"
+        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+        - docker push $REPO:$TAG
       after_script:
-        - echo "deploying"
-#    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-#    - docker push $REPO:$TAG
+        - echo $DOCKER_USERNAME $DOCKER_PASSWORD
 
 
