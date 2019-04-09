@@ -38,8 +38,9 @@ jobs:
   include:
   - stage: Test
     env:
-      - TEST=unit
-      - TEST=functional
+      matrix:
+        - TEST=unit
+        - TEST=functional
     before_install:
       - uname -a
       - php --version
