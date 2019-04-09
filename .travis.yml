@@ -48,7 +48,5 @@ jobs:
       script:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker push $REPO:$TAG
-      after_script:
-        - echo $DOCKER_USERNAME $DOCKER_PASSWORD
 
 
