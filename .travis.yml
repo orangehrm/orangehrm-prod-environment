@@ -37,6 +37,9 @@ cache:
 jobs:
   include:
   - stage: Test
+    env:
+      - TEST=unit
+      - TEST=functional
     before_install:
       - uname -a
       - php --version
@@ -52,7 +55,7 @@ jobs:
       - docker-compose up -d
       - docker ps
     script:
-      - echo $REPO
+      - echo $REPO $TEST
     after_script:
       - echo "tests success"
 #    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
