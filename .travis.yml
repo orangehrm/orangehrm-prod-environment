@@ -7,12 +7,8 @@ env:
     - REPO=orangehrm/orangehrm-environment-images
     - TAG=prod-7.1
   matrix:
-    - TEST=unit
-    - TEST=functional
-
-#  matrix:
-#  - TEST=unit
-#  - TEST=functional
+  - TEST=unit
+  - TEST=functional
 
 services:
   - docker
