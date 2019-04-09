@@ -37,28 +37,28 @@ cache:
 jobs:
   include:
   - stage: Test
-    env:
-      matrix:
-      - TEST=unit
-      - TEST=functional
     before_install:
-    - uname -a
-    - php --version
-    - docker version
-    - composer self-update
-    - docker build -t $REPO:$TAG docker-image
+      - uname -a
+      - php --version
+      - docker version
+      - composer self-update
+#      - docker build -t $REPO:$TAG docker-image
     install:
-    - docker-compose up -d
-    - composer install
-    - docker ps
+#      - docker-compose up -d
+      - docker build -t $REPO:$TAG docker-image
+      - composer install
+    before_script:
+#      - docker build -t $REPO:$TAG docker-image
+      - docker-compose up -d
+      - docker ps
     script:
-    - php vendor/bin/codecept run $TEST
+      - echo "Script for testing
     after_script:
-    - echo "tests success"
+      - echo "tests success"
 #    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 #    - docker push $REPO:$TAG
+
   - stage: Deploy to Docker Hub
-    env:
     script:
     - echo "this is the script"
     after_script:
