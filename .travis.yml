@@ -7,10 +7,10 @@ env:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-7.1
 
-#matrix:
-#    include:
-#        - os: linux
-#          dist: trusty
+  matrix:
+  - TEST=unit
+  - TEST=functional
+
 services:
   - docker
 
@@ -32,8 +32,7 @@ install:
   - docker ps
 
 script:
-  - php vendor/bin/codecept run unit
-  - php vendor/bin/codecept run functional
+  - php vendor/bin/codecept run $TEST
 
 jobs:
   include:
