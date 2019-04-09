@@ -7,61 +7,42 @@ env:
     - REPO=orangehrm/orangehrm-environment-images
     - TAG=prod-7.1
   matrix:
-  - TEST=unit
-  - TEST=functional
+    - TEST=unit
+    - TEST=functional
 
 services:
   - docker
 
 cache:
-    directories:
-        - vendor
-        - $HOME/.composer/cache
-#
-#before_install:
-#  - uname -a
-#  - php --version
-#  - docker version
-#  - composer self-update
-#  - docker build -t $REPO:$TAG docker-image
-#
-#install:
-#  - docker-compose up -d
-#  - composer install
-#  - docker ps
+  directories:
+    - vendor
+    - $HOME/.composer/cache
 
-#script:
-#  - php vendor/bin/codecept run $TEST
+before_install:
+  - uname -a
+  - php --version
+  - docker version
+  - composer self-update
+
+install:
+  - docker build -t $REPO:$TAG docker-image
+  - composer install
+
+before_script:
+  - docker-compose up -d
+  - docker ps
+
+script:
+  - php vendor/bin/codecept run $TEST
+
 
 jobs:
   include:
-  - stage: Test
-    before_install:
-      - uname -a
-      - php --version
-      - docker version
-      - composer self-update
-#      - docker build -t $REPO:$TAG docker-image
-    install:
-#      - docker-compose up -d
-      - docker build -t $REPO:$TAG docker-image
-      - composer install
-    before_script:
-#      - docker build -t $REPO:$TAG docker-image
-      - docker-compose up -d
-      - docker ps
-    script:
-      - echo $REPO $TEST
-    after_script:
-      - echo "tests success"
-#    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-#    - docker push $REPO:$TAG
-
-  - stage: Deploy to Docker Hub
-    script:
-    - echo "this is the script"
-    after_script:
-    - echo "deploying"
+    - stage: Deploy to Docker Hub
+      script:
+        - echo "this is the script"
+      after_script:
+        - echo "deploying"
 #    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 #    - docker push $REPO:$TAG
 
