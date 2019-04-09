@@ -1,15 +1,18 @@
 language: php
 sudo: required
+dist: trusty
 
 env:
+  -TEST=unit
+  -TEST=functional
   global:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-7.1
 
-matrix:
-    include:
-        - os: linux
-          dist: trusty          
+#matrix:
+#    include:
+#        - os: linux
+#          dist: trusty
 services:
   - docker
 
@@ -34,8 +37,13 @@ script:
   - php vendor/bin/codecept run unit
   - php vendor/bin/codecept run functional
 
-after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push $REPO:$TAG
+jobs:
+  include:
+  - stage: Deploy to dockerhub
+    env:
+    after_script:
+    - echo "deploying"
+#    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+#    - docker push $REPO:$TAG
 
 
