@@ -3,8 +3,6 @@ sudo: required
 dist: trusty
 
 env:
-  -TEST=unit
-  -TEST=functional
   global:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-7.1
