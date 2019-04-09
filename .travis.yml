@@ -36,8 +36,10 @@ script:
 
 jobs:
   include:
-  - stage: Deploy to dockerhub
+  - stage: Deploy to Docker Hub
     env:
+    script:
+    - echo "this is the script"
     after_script:
     - echo "deploying"
 #    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
