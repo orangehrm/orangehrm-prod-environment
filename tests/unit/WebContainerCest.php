@@ -11,7 +11,7 @@ class WebContainerCest
     {
     }
 
-  public function checkContainerIsRunning(UnitTester $I){
+    public function checkContainerIsRunning(UnitTester $I){
         $I->wantTo("verify ubuntu container up and running");
         $I->runShellCommand("docker inspect -f {{.State.Running}} prod_web");
         $I->seeInShellOutput("true");
@@ -24,12 +24,6 @@ class WebContainerCest
         $I->seeInShellOutput('supervisor-3.1');
 
     }
-
-//    public function checkSupervisorServiceIsRunning(UnitTester $I){
-//        $I->wantTo("verify supervisor is up and running in the container");
-//        $I->runShellCommand("docker exec prod_web service supervisord status");
-//        $I->seeInShellOutput('active (running)');
-//    }
 
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
