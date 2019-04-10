@@ -1,14 +1,12 @@
 language: php
 sudo: required
+dist: trusty
 
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
   - TAG=prod-7.0
-matrix:
-    include:
-        - os: linux
-          dist: trusty          
+
 services:
   - docker
 
@@ -31,8 +29,6 @@ install:
 
 script:
   - php vendor/bin/codecept run unit
-  - php vendor/bin/codecept run functional
-  - php vendor/bin/codecept run acceptance
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
