@@ -100,6 +100,7 @@ RUN a2enmod rewrite expires headers ssl vhost_alias
 EXPOSE 443
 
 # Copy files
+COPY php.ini /etc/php.ini
 COPY ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303/ioncube_loader_lin_7.1.so
 RUN echo "zend_extension=ioncube_loader_lin_7.1.so" > /etc/php/7.1/mods-available/ioncube.ini
 RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/cli/conf.d/00-ioncube.ini
