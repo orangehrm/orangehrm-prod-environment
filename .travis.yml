@@ -8,7 +8,6 @@ env:
     - TAG=prod-7.1
   matrix:
     - TEST_SUITE=unit
-    - TEST_SUITE=functional
 
 services:
   - docker
