@@ -108,6 +108,7 @@ RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/apache2/conf.d/00
 
 #remove php 7.2 additional modules
 RUN apt-get remove -y php7.2-*
+RUN apt-get remove -y php7.3-*
 
 RUN service apache2 start
 
