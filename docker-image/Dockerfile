@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Nipuna Sankalpa <nipuna@orangehrmlive.com>
+MAINTAINER OrangeHRM TechOps <techops@orangehrm.com>
 
 WORKDIR /var/www/html
 
