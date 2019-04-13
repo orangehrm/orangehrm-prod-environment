@@ -50,7 +50,7 @@ class WebContainerCest
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
         $I->runShellCommand("docker exec prod_web libreoffice --version");
-        $I->seeInShellOutput('LibreOffice 6.0.6.2');
+        $I->seeInShellOutput('LibreOffice 6.0.7.3');
     }
 
   public function checkPopplerUtilInstallation(UnitTester $I){
