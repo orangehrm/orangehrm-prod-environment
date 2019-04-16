@@ -41,11 +41,11 @@ class WebContainerCest
         $I->seeInShellOutput('active (running)');
     }
 
-    public function checkMySQLClientInstallation(UnitTester $I){
-        $I->wantTo("verify mysql-client is installed in the container");
-        $I->runShellCommand("docker exec prod_web_70 mysql --version");
-        $I->seeInShellOutput('10.2.23-MariaDB');
-    }
+//    public function checkMySQLClientInstallation(UnitTester $I){
+//        $I->wantTo("verify mysql-client is installed in the container");
+//        $I->runShellCommand("docker exec prod_web_70 mysql --version");
+//        $I->seeInShellOutput('10.2.23-MariaDB');
+//    }
 
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
