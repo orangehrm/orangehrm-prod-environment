@@ -1,7 +1,7 @@
 version: '2'
 services:
   webUbuntu1804:
-    image: orangehrm/orangehrm-environment-images:prod-7.1
+    image: orangehrm/orangehrm-environment-images:prod-7.0
     ports:
       - "8804:443"
     volumes:
@@ -15,8 +15,8 @@ services:
     links:
       - db
     restart: always
-    hostname: orangehrm-prod-web-71
-    container_name: prod_web_71
+    hostname: orangehrm-prod-web-70
+    container_name: prod_web_70
 
   db:
     image: mariadb:10.2
