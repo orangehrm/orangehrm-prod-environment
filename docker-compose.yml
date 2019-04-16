@@ -1,9 +1,9 @@
 version: '2'
 services:
-  web:
+  webUbuntu1804:
     image: orangehrm/orangehrm-environment-images:prod-7.1-ubuntu-18.04
     ports:
-      - "443:443"
+      - "8804:443"
     volumes:
       - ./html:/var/www/html
       - ./config/mysql-client:/etc/mysql
@@ -15,8 +15,80 @@ services:
     links:
       - db
     restart: always
-    hostname: orangehrm-prod-web
-    container_name: prod_web
+    hostname: orangehrm-prod-web-ubuntu
+    container_name: prod_web_ubuntu_18_04
+
+  web56:
+    image: orangehrm/orangehrm-environment-images:prod-5.6-centos
+    ports:
+    - "8856:443"
+    volumes:
+    - ./html:/var/www/html
+    - ./config/mysql-client:/etc/mysql
+    - ./config/apache2/sites-available:/etc/apache2/sites-available
+    - ./config/apache2/cert:/etc/apache2/cert
+    - ./logs/ubuntu_logs:/var/log/apache2
+    - /etc/localtime:/etc/localtime
+    privileged: true
+    links:
+    - db
+    restart: always
+    hostname: orangehrm-prod-web-56
+    container_name: prod_web_56
+
+  web70:
+    image: orangehrm/orangehrm-environment-images:prod-7.0
+    ports:
+    - "8870:443"
+    volumes:
+    - ./html:/var/www/html
+    - ./config/mysql-client:/etc/mysql
+    - ./config/apache2/sites-available:/etc/apache2/sites-available
+    - ./config/apache2/cert:/etc/apache2/cert
+    - ./logs/ubuntu_logs:/var/log/apache2
+    - /etc/localtime:/etc/localtime
+    privileged: true
+    links:
+    - db
+    restart: always
+    hostname: orangehrm-prod-web-70
+    container_name: prod_web_70
+
+  web71:
+    image: orangehrm/orangehrm-environment-images:prod-7.1
+    ports:
+    - "8871:443"
+    volumes:
+    - ./html:/var/www/html
+    - ./config/mysql-client:/etc/mysql
+    - ./config/apache2/sites-available:/etc/apache2/sites-available
+    - ./config/apache2/cert:/etc/apache2/cert
+    - ./logs/ubuntu_logs:/var/log/apache2
+    - /etc/localtime:/etc/localtime
+    privileged: true
+    links:
+    - db
+    restart: always
+    hostname: orangehrm-prod-web-71
+    container_name: prod_web_71
+
+  web72:
+    image: orangehrm/orangehrm-environment-images:prod-7.2
+    ports:
+    - "8872:443"
+    volumes:
+    - ./html:/var/www/html
+    - ./config/mysql-client:/etc/mysql
+    - ./config/apache2/sites-available:/etc/apache2/sites-available
+    - ./config/apache2/cert:/etc/apache2/cert
+    - ./logs/ubuntu_logs:/var/log/apache2
+    - /etc/localtime:/etc/localtime
+    privileged: true
+    links:
+    - db
+    restart: always
+    hostname: orangehrm-prod-web-72
+    container_name: prod_web_72
 
   db:
     image: mariadb:10.2
