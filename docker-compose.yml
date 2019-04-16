@@ -16,7 +16,7 @@ services:
       - db
     restart: always
     hostname: orangehrm-prod-web-ubuntu
-    container_name: prod_web_ubuntu_18_04
+    container_name: prod_web_ubuntu
 
   db:
     image: mariadb:10.2
