@@ -10,6 +10,9 @@ WORKDIR /var/www/html
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
 	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
+
+COPY ./repos/mariadb.repo /etc/yum.repos.d/
+
 # -----------------------------------------------------------------------------
 # Apache + PHP
 # -----------------------------------------------------------------------------
