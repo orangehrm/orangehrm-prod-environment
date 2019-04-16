@@ -110,9 +110,5 @@ COPY supervisord.conf /etc/supervisord.conf
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
-
-RUN pecl install -f mcrypt-1.0.1
-RUN pecl install -f stats-2.0.3
-RUN pecl install -f ast-0.1.6
 # Docker startup
 #CMD ["/usr/bin/supervisord"]
