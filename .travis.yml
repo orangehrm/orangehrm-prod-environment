@@ -3,9 +3,9 @@ sudo: required
 dist: trusty
 
 env:
-  global:
-    - REPO=orangehrm/orangehrm-environment-images
-    - TAG=prod-7.1-ubuntu-18.04
+  matrix:
+    - TEST_STAGE=unit
+    - TEST_STAGE=functional
 
 services:
   - docker
@@ -27,4 +27,4 @@ install:
   - docker ps
 
 script:
-  - php vendor/bin/codecept run unit
+  - php vendor/bin/codecept run $TEST_STAGE
