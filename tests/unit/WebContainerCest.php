@@ -18,6 +18,7 @@ class WebContainerCest
     }
 
     public function checkApacheServiceIsRunning(UnitTester $I){
+        sleep(3);
         $I->wantTo("verify apache is up and running in the container");
         $I->runShellCommand("docker exec prod_web_56 service httpd status");
         $I->seeInShellOutput('active (running)');
@@ -44,7 +45,7 @@ class WebContainerCest
     public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
         $I->runShellCommand("docker exec prod_web_56 mysql --version");
-        $I->seeInShellOutput('10.2.23-MariaDB');
+        $I->seeInShellOutput('MariaDB');
     }
 
     public function checkLibreOfficeInstallation(UnitTester $I){
