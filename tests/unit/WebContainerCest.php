@@ -100,6 +100,7 @@ class WebContainerCest
     public function checkPHPModules(UnitTester $I){
             $I->wantTo("verify required php modules are available");
             $I->runShellCommand("docker exec prod_web_70 php -m");
+            $I->seeInShellOutput('ast');
             $I->seeInShellOutput('apcu');
             $I->seeInShellOutput('bz2');
             $I->seeInShellOutput('bcmath');
