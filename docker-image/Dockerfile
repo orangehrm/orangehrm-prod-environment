@@ -1,6 +1,6 @@
 FROM centos/systemd
 
-MAINTAINER "Thulana" <thulana@orangehrm.us.com>
+MAINTAINER "OrangeHRM TechOps <techops@orangehrm.com>"
 
 WORKDIR /var/www/html
 
