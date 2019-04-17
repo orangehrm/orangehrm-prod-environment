@@ -123,7 +123,6 @@ class WebContainerCest
             $I->seeInShellOutput('mcrypt');
             $I->seeInShellOutput('memcache');
             $I->seeInShellOutput('mysqli');
-            $I->seeInShellOutput('mysqlnd');
             $I->seeInShellOutput('PDO');
             $I->seeInShellOutput('pdo_mysql');
             $I->seeInShellOutput('pdo_sqlite');
