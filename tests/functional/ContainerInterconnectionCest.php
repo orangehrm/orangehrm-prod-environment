@@ -13,8 +13,8 @@ class ContainerInterconnectionCest
 
 
     public function connectionBetween_db_and_web(FunctionalTester $I){
-        $I->wantTo("verify php 7.0 centos container is linked with MariaDB 10.2 properly");
-        $I->runShellCommand("docker exec prod_web_70 ping db -c 2");
+        $I->wantTo("verify php 5.6 centos container is linked with MariaDB 10.2 properly");
+        $I->runShellCommand("docker exec prod_web_56 ping db -c 2");
         $I->seeInShellOutput('2 packets transmitted, 2 received, 0% packet loss');
     }
 
