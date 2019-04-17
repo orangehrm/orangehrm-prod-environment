@@ -70,12 +70,12 @@ class WebContainerCest
         $I->seeInShellOutput('active (running)');
     }
 
-//    public function checkMySQLClientInstallation(UnitTester $I){
-//        $I->wantTo("verify mysql-client is installed in the container");
-//        $I->runShellCommand("docker exec prod_web rpm -qa | grep mariadb");
-//        $I->seeInShellOutput('mariadb-5.5');
-//
-//    }
+    public function checkMySQLClientInstallation(UnitTester $I){
+        $I->wantTo("verify mysql-client is installed in the container");
+        $I->runShellCommand("docker exec prod_web rpm -qa | grep mariadb");
+        $I->seeInShellOutput('mariadb-5.5');
+
+    }
 
      public function checkOracleClientInstallation(UnitTester $I){
             $I->wantTo("verify oralce client is installed in the container");
