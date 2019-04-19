@@ -19,7 +19,7 @@ services:
     container_name: prod_web_71
 
   db:
-    image: mariadb:10.2
+    image: orangehrm/orangehrm-db-images:mariadb-10.2
     expose:
       - "3306"
     volumes:
