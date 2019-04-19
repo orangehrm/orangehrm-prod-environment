@@ -18,6 +18,7 @@ class WebContainerCest
     }
 
     public function checkApacheServiceIsRunning(UnitTester $I){
+        sleep(3);
         $I->wantTo("verify apache is up and running in the container");
         $I->runShellCommand("docker exec prod_web_ubuntu service apache2 status");
         $I->seeInShellOutput('active (running)');
