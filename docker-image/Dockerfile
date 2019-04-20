@@ -114,5 +114,5 @@ RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
 
 
-# Docker startup
+RUN pecl install -f mcrypt-1.0.1
 #CMD ["/usr/bin/supervisord"]
