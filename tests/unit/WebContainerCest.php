@@ -102,7 +102,6 @@ class WebContainerCest
             $I->wantTo("verify required php modules are available");
             $I->runShellCommand("docker exec prod_web_71 php -m");
             $I->seeInShellOutput('apcu');
-            $I->seeInShellOutput('ast');
             $I->seeInShellOutput('bz2');
             $I->seeInShellOutput('bcmath');
             $I->seeInShellOutput('calendar');
@@ -136,7 +135,6 @@ class WebContainerCest
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
-            $I->seeInShellOutput('stats');
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
