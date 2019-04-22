@@ -14,23 +14,6 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
     privileged: true
-
-    links:
-      - db
     restart: always
     hostname: orangehrm-prod-web
     container_name: prod_web
-
-  db:
-    image: mysql:5.5
-    expose:
-      - "3306"
-    volumes:
-      - ./config/mysql-server:/etc/mysql
-      - ./logs/mysql_logs:/var/log
-      - /etc/localtime:/etc/localtime
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-    restart: always
-    hostname: orangehrm-prod-db
-    container_name: prod_mysql
