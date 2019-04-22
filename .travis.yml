@@ -33,4 +33,5 @@ script:
 after_success:
   - docker build -t $REPO:$TAG docker-image
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push $REPO:$TAG
 
