@@ -17,7 +17,7 @@ class ProdEnvironmentAllConnectionCest
     }
 
     public function checkLoginToDBFromPhpmyadmin(AcceptanceTester $I){
-        $I->wantTo("log into mysql 5.5 server through phpmyadmin");
+        $I->wantTo("log into mysql server through phpmyadmin");
         $I->runShellCommand("docker exec prod_web_71 php /var/www/html/db-creation/app.php");
         $I->cantSeeInShellOutput("false");
         $I->amOnPage('http://localhost:9090');
