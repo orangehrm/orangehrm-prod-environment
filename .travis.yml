@@ -6,6 +6,7 @@ env:
   matrix:
     - TEST_STAGE=unit
     - TEST_STAGE=functional
+    - TEST_STAGE=acceptance
 
 services:
   - docker
