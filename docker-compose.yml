@@ -1,6 +1,6 @@
 version: '2'
 services:
-  webUbuntu1804:
+  web71:
     image: orangehrm/orangehrm-environment-images:prod-7.1
     ports:
       - "8804:443"
