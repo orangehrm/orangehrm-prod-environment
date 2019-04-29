@@ -1,4 +1,4 @@
-![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `CUSTOMIZED IMAGE`
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `CUSTOMIZATION IMAGE`
 
 # OrangeHRM PROD Image - Ubuntu 18.04 Image - PHP 7.1
 
