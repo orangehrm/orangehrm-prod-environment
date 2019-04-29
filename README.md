@@ -16,3 +16,7 @@ Configuration of each layer has been added according to the OrangeHRM requiremen
 1. Download the zip
 2. Extract the downloaded zip file 
 3. run `docker-compose up -d` - this will up web, phpmyadmin and database containers
+
+
+## Notes
+- Custom configurations can be added through the docker-compose file. 
