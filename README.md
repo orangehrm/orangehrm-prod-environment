@@ -1,3 +1,5 @@
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `CUSTOMIZATION IMAGE`
+
 # OrangeHRM PROD Image - PHP 7.0
 [![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm-environment-images.svg)](https://hub.docker.com/r/orangehrm/orangehrm-environment-images/) [![Build Status](https://travis-ci.org/orangehrm/orangehrm-prod-environment.svg?branch=php-7.0)](https://travis-ci.org/orangehrm/orangehrm-prod-environment)
 
