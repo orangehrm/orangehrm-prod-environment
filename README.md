@@ -11,6 +11,8 @@ prod-environment-php56 is a dockerized production environment for OrangeHRM. Thi
 
 Configuration of each layer has been added according to the OrangeHRM requirements.
 
+## Architecture
+![Prod71 Environment Architecture](./doc-helpers/prod71-architecture.png)
 ## How to use ?
 
 1. Download the zip
