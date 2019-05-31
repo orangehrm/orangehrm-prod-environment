@@ -67,12 +67,6 @@ RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
          stats \
          ZendOpcache-7.0.4 \
 
-    && docker-php-ext-enable \
-         apcu \
-         memcache \
-         ssh2 \
-         stats
-
 #load php modules
 RUN echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apc.ini
 RUN echo "extension=memcache.so" > /usr/local/etc/php/conf.d/memcache.ini
