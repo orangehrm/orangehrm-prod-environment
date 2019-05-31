@@ -1,10 +1,10 @@
-FROM php:5.5-apache
+FROM php:5.4.37-apache
 
 MAINTAINER orangehrm
 LABEL authors = "Ridwan Shariffdeen <ridwan@orangehrmlive.com>"
 
 WORKDIR /var/www/html
-
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
 #Install dependent software
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes \
@@ -51,7 +51,6 @@ RUN  docker-php-ext-install \
      mysqli \
      pdo \
      pdo_mysql \
-     opcache \
      soap \
      zip
 
@@ -66,13 +65,19 @@ RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
          memcache \
          ssh2 \
          stats \
+         ZendOpcache-7.0.4 \
+
     && docker-php-ext-enable \
          apcu \
          memcache \
          ssh2 \
          stats
 
-
+#load php modules
+RUN echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apc.ini
+RUN echo "extension=memcache.so" > /usr/local/etc/php/conf.d/memcache.ini
+RUN echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/ssh2.ini
+RUN echo "extension=stats.so" > /usr/local/etc/php/conf.d/stats.ini
 
 # Remove apps not needed and clean apt cache
 RUN apt-get purge -y --auto-remove \
@@ -95,7 +100,7 @@ COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_5.5.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.5.so
+COPY ioncube/ioncube_loader_lin_5.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_5.4.so
 COPY php.ini /usr/local/etc/php/php.ini
 
 # Add supervisor conf
