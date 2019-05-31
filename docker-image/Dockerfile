@@ -49,7 +49,6 @@ RUN  docker-php-ext-install \
      ldap \
      mysql \
      mysqli \
-     pdo \
      pdo_mysql \
      soap \
      zip
@@ -65,7 +64,7 @@ RUN yes "" | pecl install channel://pecl.php.net/APCu-4.0.11 \
          memcache \
          ssh2 \
          stats \
-         ZendOpcache-7.0.4 \
+         ZendOpcache-7.0.4
 
 #load php modules
 RUN echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apc.ini
