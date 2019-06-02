@@ -24,13 +24,9 @@ before_install:
   - uname -a
   - php --version
   - docker version
-  - composer self-update
-  - docker build -t $REPO:$TAG docker-image
 
 install:
-  - docker-compose up -d
-#  - composer install
-  - docker ps
+  - docker build -t $REPO:$TAG docker-image
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
