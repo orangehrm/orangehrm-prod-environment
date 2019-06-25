@@ -13,6 +13,11 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 COPY ./repos/mariadb.repo /etc/yum.repos.d/
 
+
+# Install Font group
+RUN yum -y groupinstall "Font"
+
+
 # -----------------------------------------------------------------------------
 # Apache + PHP
 # -----------------------------------------------------------------------------
