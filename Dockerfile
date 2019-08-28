@@ -98,7 +98,7 @@ RUN apt-get purge -y --auto-remove \
         libjpeg62-turbo-dev \
         libjpeg-dev \
         libldap2-dev \
-        libpng12-dev \
+        libpng-dev \
         libssh2-1-dev \
     && rm -rf /var/lib/apt/lists/*
 
