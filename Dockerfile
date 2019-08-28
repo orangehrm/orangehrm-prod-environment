@@ -9,7 +9,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     libreoffice-common \
     libreoffice-draw \
     libreoffice-writer \
-    libpng12-dev \
+    libpng-dev \
     libjpeg-dev \
     libssl-dev \
     libxml2-dev \
