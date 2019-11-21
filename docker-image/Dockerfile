@@ -55,6 +55,7 @@ RUN yum -y install \
    	php70w-pecl-memcached \
     zip \
     unzip \
+    p7zip \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
