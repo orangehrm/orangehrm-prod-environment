@@ -122,12 +122,6 @@ class WebContainerCest
         $I->seeInShellOutput('curl 7.38');
     }
 
-    public function checkP7zipInstallation(UnitTester $I){
-        $I->wantTo("verify p7zip is installed in the container");
-        $I->runShellCommand("docker exec prod_web rpm -qa | grep p7zip");
-        $I->seeInShellOutput('p7zip-16');
-    }
-
     public function checkPHPVersion(UnitTester $I){
         $I->wantTo("verify php 5.6 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");

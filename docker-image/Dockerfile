@@ -19,8 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-
     supervisor \
     ttf-unifont \
     unzip \
-    zip \
-    p7zip
+    zip
 
 #Install libraries required to compile PHP modules
 RUN apt-get update && apt-get install -y --no-install-recommends \
