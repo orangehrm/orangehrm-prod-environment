@@ -15,6 +15,7 @@ RUN apt-get update &&  apt-get install -y \
     unzip \
     iputils-ping \
     libreoffice \
+    p7zip-full \
     zip
 
 #add third party repository
