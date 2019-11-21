@@ -55,6 +55,7 @@ RUN yum -y install \
    	php72w-pecl-memcached \
     zip \
     unzip \
+    p7zip \
     urw-fonts.noarch \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
