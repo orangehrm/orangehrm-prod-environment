@@ -176,7 +176,7 @@ class WebContainerCest
             //$I->seeInShellOutput('stats');
 
             $I->seeInShellOutput('xml');
-            $I->seeInShellOutput('zip');
+           // $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
     }
 
