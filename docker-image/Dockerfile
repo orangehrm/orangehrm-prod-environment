@@ -8,7 +8,7 @@ WORKDIR /var/www/html
 # -----------------------------------------------------------------------------
 
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm \
+	&& rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
 	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
 COPY ./repos/mariadb.repo /etc/yum.repos.d/
@@ -16,11 +16,13 @@ COPY ./repos/mariadb.repo /etc/yum.repos.d/
 # Install Font group
 RUN yum -y groupinstall "Font"
 
+RUN yum-config-manager --enable remi-php74
 # -----------------------------------------------------------------------------
 # Apache + PHP
 # -----------------------------------------------------------------------------
 
 RUN yum -y install \
+    yum-utils \
     httpd \
     gcc \
     MariaDB-client \
@@ -37,22 +39,22 @@ RUN yum -y install \
     memcached \
     initscripts \
     mod_ssl \
-    php72w \
-   	php72w-cli \
-   	php72w-mcrypt \
-   	php72w-ldap \
-   	php72w-bcmath \
-   	php72w-devel \
-   	php72w-mysqlnd \
-   	php72w-pdo \
-   	php72w-pear \
-   	php72w-mbstring \
-   	php72w-soap \
-   	php72w-gd \
-   	php72w-xml \
-   	php72w-pecl-apcu \
-   	php72w-pecl-memcache \
-   	php72w-pecl-memcached \
+    php \
+   	php-cli \
+   	php-mcrypt \
+   	php-ldap \
+   	php-bcmath \
+   	php-devel \
+   	php-mysqlnd \
+   	php-pdo \
+   	php-pear \
+   	php-mbstring \
+   	php-soap \
+   	php-gd \
+   	php-xml \
+   	php-pecl-apcu \
+   	php-pecl-memcache \
+   	php-pecl-memcached \
     zip \
     unzip \
     p7zip \
@@ -63,8 +65,7 @@ RUN yum -y install \
 
 
 
-RUN yes |pecl install -f ssh2-1.1.2
-RUN pecl install -f mcrypt-1.0.1
+RUN yes | pecl install -f ssh2-1.2
 RUN touch /etc/php.d/ssh2.ini
 RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
@@ -101,7 +102,7 @@ RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 EXPOSE 443
 
 # Copy files
-COPY ioncube/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.2.so
+#COPY ioncube/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.2.so
 
 COPY php.ini /etc/php.ini
 
