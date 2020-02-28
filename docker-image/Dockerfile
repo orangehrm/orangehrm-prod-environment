@@ -16,7 +16,7 @@ COPY ./repos/mariadb.repo /etc/yum.repos.d/
 # Install Font group
 RUN yum -y groupinstall "Font"
 
-RUN yum-config-manager --enable remi-php74
+RUN yum-config-manager --enable remi-php54
 # -----------------------------------------------------------------------------
 # Apache + PHP
 # -----------------------------------------------------------------------------

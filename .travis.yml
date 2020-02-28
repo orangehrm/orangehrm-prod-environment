@@ -5,7 +5,7 @@ dist: trusty
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
-  - TAG=prod-7.4-remi
+  - TAG=prod-5.4-remi
 
 services:
   - docker
