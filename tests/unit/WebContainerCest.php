@@ -96,11 +96,11 @@ class WebContainerCest
           $I->seeInShellOutput('openssl');
   }
 
-    public function checkLibSSHInstallation(UnitTester $I){
-            $I->wantTo("verify libssh2 is installed in the container");
-            $I->runShellCommand("docker exec prod_web rpm -qa | grep libssh2");
-            $I->seeInShellOutput('libssh2');
-    }
+    // public function checkLibSSHInstallation(UnitTester $I){
+    //         $I->wantTo("verify libssh2 is installed in the container");
+    //         $I->runShellCommand("docker exec prod_web rpm -qa | grep libssh2");
+    //         $I->seeInShellOutput('libssh2');
+    // }
 
     public function checkZipInstallation(UnitTester $I){
         $I->wantTo("verify zip library is installed in the container");
@@ -171,7 +171,6 @@ class WebContainerCest
             $I->seeInShellOutput('Reflection');
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
-            $I->seeInShellOutput('ssh2');
 
             //$I->seeInShellOutput('stats');
 

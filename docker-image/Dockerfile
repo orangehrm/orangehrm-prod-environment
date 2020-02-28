@@ -65,9 +65,9 @@ RUN yum -y install \
 
 
 
-RUN yes | pecl install -f ssh2-1.2
-RUN touch /etc/php.d/ssh2.ini
-RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
+# RUN yes | pecl install -f ssh2-1.2
+# RUN touch /etc/php.d/ssh2.ini
+# RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
 
