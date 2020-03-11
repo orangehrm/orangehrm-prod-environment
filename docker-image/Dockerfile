@@ -3,14 +3,6 @@ LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 
 WORKDIR /var/www/html
 
-# -----------------------------------------------------------------------------
-# Import the RPM GPG keys for Repositories
-# -----------------------------------------------------------------------------
-
-# RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-#	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm \
-#	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-
 # Addind IUS repos : reffered guide : https://support.rackspace.com/how-to/centos-7-apache-and-php-install
 RUN yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm
 
@@ -18,28 +10,28 @@ COPY ./repos/mariadb.repo /etc/yum.repos.d/
 
 # Install Font group
 RUN yum -y groupinstall "Font"
-#
-## -----------------------------------------------------------------------------
-## Apache + PHP
-## -----------------------------------------------------------------------------
-#
-#RUN yum -y install \
-#    httpd \
-#    gcc \
-#    MariaDB-client \
-#    libaio-devel \
-#    poppler-utils \
-#    supervisor \
-#    libreoffice-draw \
-#    libreoffice-writer \
-#    libmcrypt \
-#    libmcrypt-devel \
-#    cronie \
-#    libssh2 \
-#    libssh2-devel \
-#    memcached \
-#    initscripts \
-#    mod_ssl \
+
+# -----------------------------------------------------------------------------
+# Apache + PHP
+# -----------------------------------------------------------------------------
+
+RUN yum -y install \
+    httpd \
+    gcc \
+    MariaDB-client \
+    libaio-devel \
+    poppler-utils \
+    supervisor \
+    libreoffice-draw \
+    libreoffice-writer \
+    libmcrypt \
+    libmcrypt-devel \
+    cronie \
+    libssh2 \
+    libssh2-devel \
+    memcached \
+    initscripts \
+    mod_ssl \
 #    php72w \
 #   	php72w-cli \
 #   	php72w-mcrypt \
