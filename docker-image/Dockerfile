@@ -32,29 +32,26 @@ RUN yum -y install \
     memcached \
     initscripts \
     mod_ssl \
-#    php72w \
-#   	php72w-cli \
-#   	php72w-mcrypt \
-#   	php72w-ldap \
-#   	php72w-bcmath \
-#   	php72w-devel \
-#   	php72w-mysqlnd \
-#   	php72w-pdo \
-#   	php72w-pear \
-#   	php72w-mbstring \
-#   	php72w-soap \
-#   	php72w-gd \
-#   	php72w-xml \
-#   	php72w-pecl-apcu \
-#   	php72w-pecl-memcache \
-#   	php72w-pecl-memcached \
-#    zip \
-#    unzip \
-#    p7zip \
-#    urw-fonts.noarch \
-#    && yum -y update bash \
-#    && rm -rf /var/cache/yum/* \
-#    && yum clean all
+    mod_php73 \
+   	php73-cli \
+   	php73-ldap \
+   	php73-bcmath \
+   	php73-devel \
+   	php73-mysqlnd \
+   	php73-pdo \
+   	php73-mbstring \
+   	php73-soap \
+   	php73-gd \
+   	php73-xml \
+   	php73-pecl-apcu \
+   	php73-pecl-memcached \
+    zip \
+    unzip \
+    p7zip \
+    urw-fonts.noarch \
+    && yum -y update bash \
+    && rm -rf /var/cache/yum/* \
+    && yum clean all
 #
 #
 #
