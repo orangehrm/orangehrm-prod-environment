@@ -37,6 +37,8 @@ RUN yum -y install \
    	php73-ldap \
    	php73-bcmath \
    	php73-devel \
+    php73-gmp \   
+    php73-imap \
    	php73-mysqlnd \
    	php73-pdo \
    	php73-mbstring \
