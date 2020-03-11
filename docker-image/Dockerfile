@@ -11,12 +11,13 @@ WORKDIR /var/www/html
 #	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm \
 #	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# Addind IUS repos : reffered guide : https://support.rackspace.com/how-to/centos-7-apache-and-php-install
+RUN yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm
 
 COPY ./repos/mariadb.repo /etc/yum.repos.d/
 
 # Install Font group
-#RUN yum -y groupinstall "Font"
+RUN yum -y groupinstall "Font"
 #
 ## -----------------------------------------------------------------------------
 ## Apache + PHP
