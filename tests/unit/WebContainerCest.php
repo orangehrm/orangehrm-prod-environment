@@ -12,7 +12,7 @@ class WebContainerCest
     }
 
     public function checkContainerIsRunning(UnitTester $I){
-        $I->wantTo("verify ubuntu container up and running");
+        $I->wantTo("verify centos container is up and running");
         $I->runShellCommand("docker inspect -f {{.State.Running}} prod_web");
         $I->seeInShellOutput("true");
     }
@@ -33,7 +33,6 @@ class WebContainerCest
 
     public function checkApacheServiceIsRunning(UnitTester $I){
         $I->wantTo("verify apache is up and running in the container");
-        //$I->runShellCommand("ping -c 10 localhost");
         $I->runShellCommand("docker exec prod_web service httpd status");
         $I->seeInShellOutput('active (running)');
     }
@@ -129,9 +128,9 @@ class WebContainerCest
     }
 
     public function checkPHPVersion(UnitTester $I){
-        $I->wantTo("verify php 7.2 is installed in the container");
+        $I->wantTo("verify php 7.3 is installed in the container");
         $I->runShellCommand("docker exec prod_web php --version");
-        $I->seeInShellOutput('PHP 7.2');
+        $I->seeInShellOutput('PHP 7.3');
 
     }
 
@@ -172,9 +171,6 @@ class WebContainerCest
             $I->seeInShellOutput('session');
             $I->seeInShellOutput('SimpleXML');
             $I->seeInShellOutput('ssh2');
-
-            //$I->seeInShellOutput('stats');
-
             $I->seeInShellOutput('xml');
             $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
