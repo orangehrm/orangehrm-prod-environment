@@ -55,6 +55,7 @@ RUN yum -y install \
     php73-process \
    	php73-pecl-apcu \
    	php73-pecl-memcached \
+    pear1u.noarch \
     zip \
     unzip \
     p7zip \
@@ -64,20 +65,9 @@ RUN yum -y install \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
-# Install PECL modules - ssh and mcrypt
-# PECL module installation reference : https://mediatemple.net/community/products/dv/204644340/installing-pecl-extensions
-
-RUN wget https://pecl.php.net/get/ssh2-1.2.tgz && tar zxvf ssh2-1.2.tgz
-RUN cd /var/www/html/ssh2-1.2 && phpize && ./configure -with-php-config=/usr/bin/php-config
-RUN cd /var/www/html/ssh2-1.2 && make && make install
-
-RUN wget https://pecl.php.net/get/mcrypt-1.0.3.tgz && tar zxvf mcrypt-1.0.3.tgz
-RUN cd /var/www/html/mcrypt-1.0.3 && phpize && ./configure -with-php-config=/usr/bin/php-config
-RUN cd /var/www/html/mcrypt-1.0.3 && make && make install
-
-# Clean the directories
-RUN rm -rf /var/www/html/*
-
+# Insrall ssh2 and mcrypt
+RUN pecl install -f ssh2-1.2
+RUN pecl install -f mcrypt-1.0.3
 
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
