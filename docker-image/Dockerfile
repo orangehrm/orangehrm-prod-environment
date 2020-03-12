@@ -7,6 +7,7 @@ WORKDIR /var/www/html
 RUN yum install -y epel-release
 
 # Addind IUS repos : reffered guide : https://support.rackspace.com/how-to/centos-7-apache-and-php-install
+# Alternative command : yum install -y https://repo.ius.io/ius-release-el7.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm
 
 # Add MariaDB keys
@@ -78,30 +79,24 @@ RUN cd /var/www/html/mcrypt-1.0.3 && make && make install
 RUN rm -rf /var/www/html/*
 
 
-# RUN yes |pecl install -f ssh2-1.1.2
-# RUN pecl install -f mcrypt-1.0.1
-# RUN touch /etc/php.d/ssh2.ini
-# RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
-# RUN mkdir /opt/oracle
-# COPY oracle-db /opt/oracle
+RUN mkdir /opt/oracle
+COPY oracle-db /opt/oracle
+RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
+   && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
+   && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
+   && rm instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
+   && rm instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
+   && rm instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
+   && ln -s /opt/oracle/instantclient_11_2/libclntsh.so.11.1 /opt/oracle/instantclient_11_2/libclntsh.so \
+   && ln -s /opt/oracle/instantclient_11_2/libocci.so.11.1 /opt/oracle/instantclient_11_2/libocci.so \
+   && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
+   && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
+   && ldconfig
 
-
-# RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-#    && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-#    && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-#    && rm instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-#    && rm instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-#    && rm instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-#    && ln -s /opt/oracle/instantclient_11_2/libclntsh.so.11.1 /opt/oracle/instantclient_11_2/libclntsh.so \
-#    && ln -s /opt/oracle/instantclient_11_2/libocci.so.11.1 /opt/oracle/instantclient_11_2/libocci.so \
-#    && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
-#    && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
-#    && ldconfig
-
-# ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
-# ENV LD_LIBRARY_PATH="$ORACLE_HOME"
-# ENV PATH="$ORACLE_HOME:$PATH"
-# ENV container docker
+ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
+ENV LD_LIBRARY_PATH="$ORACLE_HOME"
+ENV PATH="$ORACLE_HOME:$PATH"
+ENV container docker
 
 
 # Update the default apache site with the config we created.
@@ -127,5 +122,3 @@ COPY supervisord.conf /etc/supervisord.conf
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
-# Docker startup
-#CMD ["/usr/bin/supervisord"]
