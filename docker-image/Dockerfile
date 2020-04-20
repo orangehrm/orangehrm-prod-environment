@@ -53,7 +53,6 @@ RUN yum -y install \
    	php-gd \
    	php-xml \
    	php-pecl-apcu \
-   	php-pecl-memcache \
    	php-pecl-memcached \
     zip \
     unzip \
@@ -62,8 +61,6 @@ RUN yum -y install \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
-
-
 
 RUN yes | pecl install -f ssh2-1.2
 RUN touch /etc/php.d/ssh2.ini
@@ -102,7 +99,7 @@ RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 EXPOSE 443
 
 # Copy files
-#COPY ioncube/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.2.so
+COPY ioncube/ioncube_loader_lin_7.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.4.so
 
 COPY php.ini /etc/php.ini
 
