@@ -14,7 +14,6 @@ COPY php.ini /usr/local/lib/php/lib/php.ini
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisord.conf
 
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
