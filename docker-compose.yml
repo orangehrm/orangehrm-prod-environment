@@ -1,7 +1,7 @@
 version: '2'
 services:
-  web71:
-    image: orangehrm/orangehrm-environment-images:prod-7.2
+  web74:
+    image: orangehrm/orangehrm-environment-images:prod-7.4-remi
     ports:
       - "8804:443"
     volumes:
@@ -15,8 +15,8 @@ services:
     links:
       - db
     restart: always
-    hostname: orangehrm-prod-web-72
-    container_name: prod_web_72
+    hostname: orangehrm-prod-web-74
+    container_name: prod_web_74
 
   db:
     image: orangehrm/orangehrm-db-images:mariadb-10.2
