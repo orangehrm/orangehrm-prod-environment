@@ -17,14 +17,6 @@ class WebContainerCest
         $I->seeInShellOutput("true");
     }
 
-    public function checkSupervisorInstallation(UnitTester $I){
-        $I->wantTo("verify supervisor is installed in the container");
-
-        $I->runShellCommand("docker exec prod_web rpm -qa | grep supervisor");
-        $I->seeInShellOutput('supervisor-3.1');
-
-    }
-
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
         $I->runShellCommand("docker exec prod_web httpd -v");
@@ -64,12 +56,6 @@ class WebContainerCest
         $I->seeInShellOutput('active (running)');
     }
 
-    public function checkMySQLClientInstallation(UnitTester $I){
-        $I->wantTo("verify mysql-client is installed in the container");
-        $I->runShellCommand("docker exec prod_web rpm -qa | grep MariaDB-client");
-        $I->seeInShellOutput('MariaDB-client');
-
-    }
 
      public function checkOracleClientInstallation(UnitTester $I){
             $I->wantTo("verify oralce client is installed in the container");
