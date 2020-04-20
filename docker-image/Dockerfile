@@ -58,6 +58,7 @@ RUN yum -y install \
    	php-pecl-apcu \
     php-pecl-wddx \
    	php-pecl-memcached \
+    php74-php-pecl-mcrypt \
     zip \
     unzip \
     p7zip \
