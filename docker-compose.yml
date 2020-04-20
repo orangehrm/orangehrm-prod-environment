@@ -8,7 +8,6 @@ services:
       - ./html:/var/www/html
       - ./config/apache2/sites-available:/etc/apache2/sites-available
       - ./config/apache2/cert:/etc/apache2/cert
-      - ./logs/ubuntu_logs:/var/log/apache2
       - /etc/localtime:/etc/localtime
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
