@@ -47,12 +47,16 @@ RUN yum -y install \
    	php-devel \
    	php-mysqlnd \
    	php-pdo \
+    php-gmp \
    	php-pear \
+    php-imap \   
    	php-mbstring \
    	php-soap \
    	php-gd \
    	php-xml \
+    php-pecl-zip \
    	php-pecl-apcu \
+    php-pecl-wddx \
    	php-pecl-memcached \
     zip \
     unzip \
