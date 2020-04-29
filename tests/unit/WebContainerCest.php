@@ -116,15 +116,15 @@ class WebContainerCest
 
     public function checkPHPVersion(UnitTester $I){
         $I->wantTo("verify php 7.2 is installed in the container");
-        $I->runShellCommand("docker exec prod_web php --version");
-        $I->seeInShellOutput('PHP 7.2');
+        $I->runShellCommand("docker exec prod_web /usr/local/lib/php/bin --version");
+        $I->seeInShellOutput('PHP 7.3.5');
 
     }
 
 
     public function checkPHPModules(UnitTester $I){
             $I->wantTo("verify required php modules are available");
-            $I->runShellCommand("docker exec prod_web php -m");
+            $I->runShellCommand("docker exec prod_web /usr/local/lib/php/bin -m");
             $I->seeInShellOutput('bcmath');
             $I->seeInShellOutput('calendar');
             $I->seeInShellOutput('Core');
