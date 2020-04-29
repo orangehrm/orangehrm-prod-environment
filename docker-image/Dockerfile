@@ -4,7 +4,7 @@ LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 #setting up working directory
 WORKDIR /var/www/html
 
-COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
+COPY apache-config.conf /etc/httpd/vhosts/orangehrm.conf
 
 # Export port 443
 EXPOSE 443
