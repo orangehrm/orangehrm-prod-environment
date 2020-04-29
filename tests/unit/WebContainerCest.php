@@ -57,12 +57,6 @@ class WebContainerCest
     }
 
 
-     public function checkOracleClientInstallation(UnitTester $I){
-            $I->wantTo("verify oralce client is installed in the container");
-            $I->runShellCommand("docker exec prod_web sqlplus -v");
-            $I->seeInShellOutput('SQL*Plus: Release 11.2.0.2.0 Production');
-     }
-
     public function checkLibreOfficeInstallation(UnitTester $I){
         $I->wantTo("verify LibreOffice is installed in the container");
         $I->runShellCommand("docker exec prod_web libreoffice --version");
@@ -145,11 +139,7 @@ class WebContainerCest
             $I->seeInShellOutput('mbstring');
             $I->seeInShellOutput('mcrypt');
             $I->seeInShellOutput('memcached');
-            $I->seeInShellOutput('mysql');
-            $I->seeInShellOutput('mysqli');
-            $I->seeInShellOutput('mysqlnd');
             $I->seeInShellOutput('PDO');
-            $I->seeInShellOutput('pdo_mysql');
             $I->seeInShellOutput('pdo_sqlite');
             $I->seeInShellOutput('Phar');
             $I->seeInShellOutput('posix');
