@@ -5,7 +5,7 @@ dist: trusty
 env:
   global:
   - REPO=orangehrm/orangehrm-environment-images
-  - TAG=prod-7.4-remi
+  - TAG=prod-7.4-ius
 
 services:
   - docker
@@ -30,8 +30,8 @@ install:
 script:
   - php vendor/bin/codecept run unit
 
-after_success:
-  - docker build -t $REPO:$TAG docker-image
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push $REPO:$TAG
+# after_success:
+#   - docker build -t $REPO:$TAG docker-image
+#   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+#   - docker push $REPO:$TAG
 
