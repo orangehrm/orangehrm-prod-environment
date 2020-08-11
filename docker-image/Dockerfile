@@ -4,21 +4,19 @@ LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 WORKDIR /var/www/html
 
 # -----------------------------------------------------------------------------
-# Import the RPM GPG keys for Repositories
+# Adding IUS repository and MariaDB GPG Keys
 # -----------------------------------------------------------------------------
 
-RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-	&& rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
-	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+RUN yum install -y epel-release https://repo.ius.io/ius-release-el$(rpm -E '%{rhel}').rpm \
+        && rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
 COPY ./repos/mariadb.repo /etc/yum.repos.d/
 
 # Install Font group
 RUN yum -y groupinstall "Font"
 
-RUN yum-config-manager --enable remi-php74
 # -----------------------------------------------------------------------------
-# Apache + PHP
+# Install Middlewares and modules
 # -----------------------------------------------------------------------------
 
 RUN yum -y install \
@@ -36,44 +34,44 @@ RUN yum -y install \
     cronie \
     libssh2 \
     libssh2-devel \
-    memcached \
+    libmemcached-devel \
     initscripts \
     mod_ssl \
-    php \
-   	php-cli \
-   	php-mcrypt \
-   	php-ldap \
-   	php-bcmath \
-   	php-devel \
-   	php-mysqlnd \
-   	php-pdo \
-    php-gmp \
-   	php-pear \
-    php-imap \   
-   	php-mbstring \
-   	php-soap \
-   	php-gd \
-   	php-xml \
-    php-pecl-zip \
-   	php-pecl-apcu \
-    php-pecl-wddx \
-   	php-pecl-memcached \
-    php74-php-pecl-mcrypt \
+    mod_php74 \
+    php74-cli \
+    php74-ldap \
+    php74-bcmath \
+    php74-devel \
+    php74-mysqlnd \
+    php74-pdo \
+    php74-mbstring \
+    php74-soap \
+    php74-gd \
+    php74-xml \
+    php74-imap \
+    php74-json \
+    php74-gmp \
+    php74-pecl-apcu \
+    php74-pecl-igbinary \
+    php74-pecl-zip \
     zip \
     unzip \
     p7zip \
     urw-fonts.noarch \
+    pear1.noarch \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
-RUN yes | pecl install -f ssh2-1.2
-RUN touch /etc/php.d/ssh2.ini
-RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
+# Install PECL modules
+RUN yes | pecl install -f ssh2-1.2 mcrypt-1.0.3 memcached-3.1.5
+
+# RUN touch /etc/php.d/ssh2.ini
+# RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
+
+# Install oracledb clients
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
-
-
 RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
     && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
