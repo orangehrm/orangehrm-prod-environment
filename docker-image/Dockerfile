@@ -66,9 +66,6 @@ RUN yum -y install \
 # Install PECL modules
 RUN yes | pecl install -f ssh2-1.2 mcrypt-1.0.3 memcached-3.1.5
 
-# RUN touch /etc/php.d/ssh2.ini
-# RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
-
 # Install oracledb clients
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
@@ -83,7 +80,6 @@ RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
     && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
     && ldconfig
-
 ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
 ENV LD_LIBRARY_PATH="$ORACLE_HOME"
 ENV PATH="$ORACLE_HOME:$PATH"
@@ -97,22 +93,18 @@ RUN echo "IncludeOptional sites-enabled/*.conf" >> /etc/httpd/conf/httpd.conf
 COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
 RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 
-
 # Export port 443
 EXPOSE 443
 
-# Copy files
+# Copy IonCube loader and PHP configuration files
 COPY ioncube/ioncube_loader_lin_7.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.4.so
-
 COPY php.ini /etc/php.ini
-
 
 # Add supervisor conf
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
 COPY supervisord.conf /etc/supervisord.conf
 
+# Enable services
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
-# Docker startup
-#CMD ["/usr/bin/supervisord"]
