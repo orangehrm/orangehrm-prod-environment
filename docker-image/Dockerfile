@@ -34,6 +34,7 @@ RUN yum -y install \
     cronie \
     libssh2 \
     libssh2-devel \
+    memcached \
     libmemcached-devel \
     initscripts \
     mod_ssl \
