@@ -64,7 +64,10 @@ RUN yum -y install \
     && yum clean all
 
 # Install PECL modules
-RUN yes | pecl install -f ssh2-1.2 mcrypt-1.0.3 memcached-3.1.5
+RUN yes | pecl install -f ssh2-1.2
+RUN yes | pecl install -f mcrypt-1.0.3 
+RUN yes | pecl install -f memcached-3.1.5 
+
 
 # Install oracledb clients
 RUN mkdir /opt/oracle
