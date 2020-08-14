@@ -139,7 +139,9 @@ class WebContainerCest
     public function checkPHPModules(UnitTester $I){
             $I->wantTo("verify required php modules are available");
             $I->runShellCommand("docker exec prod_web php -m");
+            $I->seeInShellOutput('apcu');
             $I->seeInShellOutput('bcmath');
+            $I->seeInShellOutput('bz2');
             $I->seeInShellOutput('calendar');
             $I->seeInShellOutput('Core');
             $I->seeInShellOutput('ctype');
@@ -149,19 +151,26 @@ class WebContainerCest
             $I->seeInShellOutput('exif');
             $I->seeInShellOutput('fileinfo');
             $I->seeInShellOutput('filter');
+            $I->seeInShellOutput('ftp');
             $I->seeInShellOutput('gd');
             $I->seeInShellOutput('gettext');
+            $I->seeInShellOutput('gmp');
             $I->seeInShellOutput('hash');
             $I->seeInShellOutput('iconv');
+            $I->seeInShellOutput('igbinary');
+            $I->seeInShellOutput('imap');
+            $I->seeInShellOutput('ionCube Loader');
             $I->seeInShellOutput('json');
             $I->seeInShellOutput('ldap');
             $I->seeInShellOutput('libxml');
             $I->seeInShellOutput('mbstring');
             $I->seeInShellOutput('mcrypt');
             $I->seeInShellOutput('memcached');
-            $I->seeInShellOutput('mysql');
             $I->seeInShellOutput('mysqli');
             $I->seeInShellOutput('mysqlnd');
+            $I->seeInShellOutput('openssl');
+            $I->seeInShellOutput('pcntl');
+            $I->seeInShellOutput('pcre');
             $I->seeInShellOutput('PDO');
             $I->seeInShellOutput('pdo_mysql');
             $I->seeInShellOutput('pdo_sqlite');
@@ -170,13 +179,22 @@ class WebContainerCest
             $I->seeInShellOutput('readline');
             $I->seeInShellOutput('Reflection');
             $I->seeInShellOutput('session');
+            $I->seeInShellOutput('shmop');
             $I->seeInShellOutput('SimpleXML');
+            $I->seeInShellOutput('soap');
+            $I->seeInShellOutput('sockets');
+            $I->seeInShellOutput('SPL');
+            $I->seeInShellOutput('sqlite3');
             $I->seeInShellOutput('ssh2');
-
-            //$I->seeInShellOutput('stats');
-
+            $I->seeInShellOutput('standard');
+            $I->seeInShellOutput('sysvmsg');
+            $I->seeInShellOutput('sysvsem');
+            $I->seeInShellOutput('tokenizer');
             $I->seeInShellOutput('xml');
-           // $I->seeInShellOutput('zip');
+            $I->seeInShellOutput('xmlreader');
+            $I->seeInShellOutput('xmlwriter');
+            $I->seeInShellOutput('xsl');
+            $I->seeInShellOutput('zip');
             $I->seeInShellOutput('zlib');
     }
 
