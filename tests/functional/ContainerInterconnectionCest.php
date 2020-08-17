@@ -21,7 +21,7 @@ class ContainerInterconnectionCest
     public function connectionBetween_phpmyadmin_db(FunctionalTester $I){
         $I->wantTo("verify phpmyadmin container is linked with MariaDB 10.2 container properly");
         $I->runShellCommand("docker exec prod_phpmyadmin ping db -c 2");
-        $I->seeInShellOutput('2 packets transmitted, 2 packets received, 0% packet loss');
+        $I->seeInShellOutput('2 packets transmitted, 2 received, 0% packet loss');
     }
 
 }
