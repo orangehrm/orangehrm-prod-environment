@@ -25,7 +25,8 @@ install:
   - docker-compose up -d
   - composer install
   - docker ps
-  - docker exec prod_phpmyadmin apt update && apt install -y iputils-ping
+  - docker exec prod_phpmyadmin apt update
+  - docker exec prod_phpmyadmin apt install -y iputils-ping
 
 script:
   - php vendor/bin/codecept run $TEST_STAGE
