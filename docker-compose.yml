@@ -1,7 +1,7 @@
 version: '2'
 services:
   web74:
-    image: orangehrm/orangehrm-environment-images:prod-7.4-remi
+    image: orangehrm/orangehrm-environment-images:prod-7.4-ius
     ports:
       - "8804:443"
     volumes:
