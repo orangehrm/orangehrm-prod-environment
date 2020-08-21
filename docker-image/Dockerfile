@@ -4,12 +4,11 @@ LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 WORKDIR /var/www/html
 
 # -----------------------------------------------------------------------------
-# Import the RPM GPG keys for Repositories
+# Adding IUS repository and MariaDB GPG Keys
 # -----------------------------------------------------------------------------
 
-RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-	&& rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm \
-	&& rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+RUN yum install -y epel-release https://repo.ius.io/ius-release-el$(rpm -E '%{rhel}').rpm \
+        && rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
 COPY ./repos/mariadb.repo /etc/yum.repos.d/
 
@@ -17,7 +16,7 @@ COPY ./repos/mariadb.repo /etc/yum.repos.d/
 RUN yum -y groupinstall "Font"
 
 # -----------------------------------------------------------------------------
-# Apache + PHP
+# Install Middlewares and modules
 # -----------------------------------------------------------------------------
 
 RUN yum -y install \
@@ -35,42 +34,43 @@ RUN yum -y install \
     libssh2 \
     libssh2-devel \
     memcached \
+    libmemcached-devel \
     initscripts \
     mod_ssl \
-    php72w \
-   	php72w-cli \
-   	php72w-mcrypt \
-   	php72w-ldap \
-   	php72w-bcmath \
-   	php72w-devel \
-   	php72w-mysqlnd \
-   	php72w-pdo \
-   	php72w-pear \
-   	php72w-mbstring \
-   	php72w-soap \
-   	php72w-gd \
-   	php72w-xml \
-   	php72w-pecl-apcu \
-   	php72w-pecl-memcache \
-   	php72w-pecl-memcached \
+    mod_php72u \
+   	php72u-cli \
+   	php72u-ldap \
+   	php72u-bcmath \
+    php72u-imap \
+   	php72u-devel \
+   	php72u-mysqlnd \
+   	php72u-pdo \
+   	php72u-mbstring \
+   	php72u-soap \
+   	php72u-gd \
+    php72u-gmp \
+   	php72u-xml \
+   	php72u-pecl-apcu \
+   	php72u-pecl-memcached \
+   	php72u-pecl-igbinary \
     zip \
     unzip \
     p7zip \
     urw-fonts.noarch \
+    pear1.noarch \
     && yum -y update bash \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
 
+# Install PECL modules
+RUN yes | pecl install -f ssh2-1.2
+RUN yes | pecl install -f mcrypt-1.0.3 
 
-RUN yes |pecl install -f ssh2-1.1.2
-RUN pecl install -f mcrypt-1.0.1
-RUN touch /etc/php.d/ssh2.ini
-RUN echo extension=ssh2.so > /etc/php.d/ssh2.ini
+
+# Install oracledb clients
 RUN mkdir /opt/oracle
 COPY oracle-db /opt/oracle
-
-
 RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
     && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
     && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
@@ -113,5 +113,3 @@ COPY supervisord.conf /etc/supervisord.conf
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
-# Docker startup
-#CMD ["/usr/bin/supervisord"]
