@@ -1,7 +1,7 @@
 version: '2'
 services:
   web71:
-    image: orangehrm/orangehrm-environment-images:prod-7.2
+    image: orangehrm/orangehrm-environment-images:prod-7.2-ius
     ports:
       - "8804:443"
     volumes:
