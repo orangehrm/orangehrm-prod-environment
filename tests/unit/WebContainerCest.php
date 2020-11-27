@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkSupervisorInstallation(UnitTester $I){
         $I->wantTo("verify supervisor is installed in the container");
         $I->runShellCommand("docker exec prod_web rpm -qa | grep supervisor");
-        $I->seeInShellOutput('supervisor-3.1');
+        $I->seeInShellOutput('supervisor');
     }
 
 //    public function checkSupervisorServiceIsRunning(UnitTester $I){
