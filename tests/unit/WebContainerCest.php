@@ -60,6 +60,12 @@ class WebContainerCest
         $I->seeInShellOutput('memcached-1.4.15');
     }
 
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web yum list installed | grep ImageMagick");
+        $I->seeInShellOutput('ImageMagick.x86_64');
+    }
+
     public function checkMemcacheServiceIsRunning(UnitTester $I){
         $I->wantTo("verify memcache is up and running in the container");
         $I->runShellCommand("docker exec prod_web service memcached status");
