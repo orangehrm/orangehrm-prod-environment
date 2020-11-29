@@ -36,6 +36,9 @@ RUN yum -y install \
     memcached \
     libmemcached-devel \
     initscripts \
+    ImageMagick \
+    ImageMagick-devel \
+    ImageMagick-perl \
     mod_ssl \
     mod_php72u \
    	php72u-cli \
