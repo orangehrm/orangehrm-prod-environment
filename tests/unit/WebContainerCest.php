@@ -31,6 +31,12 @@ class WebContainerCest
         $I->seeInShellOutput('Server version: Apache/2.4.6');
     }
 
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web yum list installed | grep ImageMagick");
+        $I->seeInShellOutput('ImageMagick.x86_64');
+    }
+    
     public function checkApacheServiceIsRunning(UnitTester $I){
         $I->wantTo("verify apache is up and running in the container");
         //$I->runShellCommand("ping -c 10 localhost");
