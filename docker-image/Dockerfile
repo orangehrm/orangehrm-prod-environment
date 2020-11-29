@@ -36,6 +36,9 @@ RUN yum -y install \
     libssh2-devel \
     memcached \
     initscripts \
+    ImageMagick \
+    ImageMagick-devel \
+    ImageMagick-perl \
     mod_ssl \
     php70w \
    	php70w-cli \
