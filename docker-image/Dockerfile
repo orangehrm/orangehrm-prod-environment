@@ -61,7 +61,7 @@ RUN yum -y install \
     php73-process \
    	php73-pecl-apcu \
    	php73-pecl-memcached \
-    pear1u.noarch \
+    pear1.noarch \
     zip \
     unzip \
     p7zip \
