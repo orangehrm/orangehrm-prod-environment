@@ -8,10 +8,10 @@ RUN yum install -y epel-release
 
 # Addind IUS repos : reffered guide : https://support.rackspace.com/how-to/centos-7-apache-and-php-install
 # Alternative command : yum install -y https://repo.ius.io/ius-release-el7.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-RUN yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm -y
-#RUN yum install \
- #   https://repo.ius.io/ius-release-el7.rpm \
- #   https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+#RUN yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm -y
+RUN yum install \
+    https://repo.ius.io/ius-release-el7.rpm \
+    https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
 
 # Add MariaDB keys
 RUN rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
