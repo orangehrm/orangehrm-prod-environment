@@ -114,6 +114,12 @@ class WebContainerCest
         $I->seeInShellOutput('Zip 3');
     }
 
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web yum list installed | grep ImageMagick");
+        $I->seeInShellOutput('ImageMagick.x86_64');
+    }
+
     public function checkUnzipIsInstallation(UnitTester $I){
         $I->wantTo("verify UnZip library is installed in the container");
         $I->runShellCommand("docker exec prod_web unzip -v");
