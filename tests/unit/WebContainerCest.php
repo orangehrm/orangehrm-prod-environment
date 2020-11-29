@@ -44,6 +44,12 @@ class WebContainerCest
 
     }
 
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web yum list installed | grep ImageMagick");
+        $I->seeInShellOutput('ImageMagick.x86_64');
+    }
+
     public function checkCronServiceIsRunning(UnitTester $I){
         $I->wantTo("verify cron is up and running in the container");
         $I->runShellCommand("docker exec prod_web service crond status");
