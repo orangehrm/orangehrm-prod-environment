@@ -115,7 +115,7 @@ class WebContainerCest
     }
 
     public function checkImageMagick(UnitTester $I){
-        $I->wantTo("verify imagemagick is installed in the container");
+        $I->wantTo("verify imagemagick is installed in the container 71");
         $I->runShellCommand("docker exec prod_web yum list installed | grep ImageMagick");
         $I->seeInShellOutput('ImageMagick.x86_64');
     }
