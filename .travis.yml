@@ -1,51 +1,88 @@
+# language: php
+# sudo: required
+# dist: trusty
+
+# env:
+#   global:
+#     - REPO=orangehrm/orangehrm-environment-images
+#     - TAG=prod-7.1
+#   matrix:
+#     - TEST_SUITE=unit
+
+# services:
+#   - docker
+
+# cache:
+#   directories:
+#     - vendor
+#     - $HOME/.composer/cache
+
+# before_install:
+#   - uname -a
+#   - php --version
+#   - docker version
+#   - composer self-update
+
+# install:
+#   - docker build -t $REPO:$TAG docker-image
+#   - composer install
+
+# before_script:
+#   - docker-compose up -d
+#   - docker ps
+
+# script:
+#   - php vendor/bin/codecept run $TEST_SUITE
+
+
+# jobs:
+#   include:
+#     - stage: Deploy to Docker Hub
+#       env:
+#         - TEST_SUITE=None
+#       before_install: skip
+#       install: skip
+#       before_script:
+#         - docker build -t $REPO:$TAG docker-image
+#       script:
+#         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+#         - docker push $REPO:$TAG
+
+
 language: php
 sudo: required
 dist: trusty
 
 env:
   global:
-    - REPO=orangehrm/orangehrm-environment-images
-    - TAG=prod-7.1
-  matrix:
-    - TEST_SUITE=unit
+  - REPO=orangehrm/orangehrm-environment-images
+  - TAG=prod-7.1
 
 services:
   - docker
 
 cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
+    directories:
+        - vendor
+        - $HOME/.composer/cache
 
 before_install:
   - uname -a
   - php --version
   - docker version
   - composer self-update
+  - docker build -t $REPO:$TAG docker-image
 
 install:
-  - docker build -t $REPO:$TAG docker-image
-  - composer install
-
-before_script:
   - docker-compose up -d
+  - composer install
   - docker ps
 
 script:
-  - php vendor/bin/codecept run $TEST_SUITE
+  - php vendor/bin/codecept run unit
 
-
-jobs:
-  include:
-    - stage: Deploy to Docker Hub
-      env:
-        - TEST_SUITE=None
-      before_install: skip
-      install: skip
-      before_script:
-        - docker build -t $REPO:$TAG docker-image
-      script:
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        - docker push $REPO:$TAG
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push $REPO:$TAG
 
 
