@@ -52,6 +52,7 @@ RUN yum -y install \
     php74-soap \
     php74-gd \
     php74-xml \
+    php74-tidy \
     php74-imap \
     php74-json \
     php74-gmp \
