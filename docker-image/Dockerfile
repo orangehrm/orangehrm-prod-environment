@@ -53,6 +53,7 @@ RUN yum -y install \
    	php72u-gd \
     php72u-gmp \
    	php72u-xml \
+    php72u-tidy \
    	php72u-pecl-apcu \
    	php72u-pecl-memcached \
    	php72u-pecl-igbinary \
