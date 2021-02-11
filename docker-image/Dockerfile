@@ -54,6 +54,7 @@ RUN yum -y install \
    	php-soap \
    	php-gd \
    	php-xml \
+   	php-tidy \
     php-pecl-zip \
    	php-pecl-apcu \
     php-pecl-wddx \
