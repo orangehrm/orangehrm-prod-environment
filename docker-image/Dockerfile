@@ -53,6 +53,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     php7.1-bz2 \
     php7.1-curl \
     php7.1-gd \
+    php7.1-tidy \
     php7.1-gmp \
     php7.1-ldap \
     php7.1-mbstring \
