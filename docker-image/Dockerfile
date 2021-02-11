@@ -52,6 +52,7 @@ RUN yum -y install \
    	php-soap \
    	php-gd \
    	php-xml \
+   	php-tidy \
    	php-pecl-apcu \
    	php-pecl-memcache \
    	php-pecl-memcached \
