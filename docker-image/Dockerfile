@@ -52,6 +52,7 @@ RUN yum -y install \
    	php56w-soap \
    	php56w-gd \
    	php56w-xml \
+   	php56w-tidy \
    	php56w-pecl-apcu \
    	php56w-pecl-memcache \
    	php56w-pecl-mongodb \
