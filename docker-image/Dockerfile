@@ -58,6 +58,7 @@ RUN yum -y install \
    	php73-soap \
    	php73-gd \
    	php73-xml \
+   	php73-tidy \
     php73-process \
    	php73-pecl-apcu \
    	php73-pecl-memcached \
