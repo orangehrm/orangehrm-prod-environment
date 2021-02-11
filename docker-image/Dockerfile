@@ -53,6 +53,7 @@ RUN yum -y install \
    	php70w-soap \
    	php70w-gd \
    	php70w-xml \
+   	php70w-tidy \
    	php70w-pecl-apcu \
    	php70w-pecl-memcache \
    	php70w-pecl-memcached \
