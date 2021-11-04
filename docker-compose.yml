@@ -1,9 +1,10 @@
 version: '2'
 services:
   web:
-    image: orangehrm/orangehrm-environment-images:prod-7.4-ius
+    image: orangehrm/orangehrm-environment-images:prod-php-7.4-ubuntu20.04
     ports:
       - "443:443"
+    tty: true
     volumes:
       - ./html:/var/www/html
       - ./config/apache2/sites-available:/etc/apache2/sites-available
@@ -11,9 +12,37 @@ services:
       - ./logs/ubuntu_logs:/var/log/apache2
       - /etc/localtime:/etc/localtime
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      ohrmprodnet:
+        ipv4_address: 10.2.1.100
     privileged: true
     restart: always
-    hostname: orangehrm-prod-web
-    container_name: prod_web
+    hostname: orangehrm-prod-web_ubuntu
+    container_name: prod_web_ubuntu
 
+  db102:
+    image: orangehrm/orangehrm-db-images:mariadb-10.2
+    expose:
+      - "3306"
+    volumes:
+      - ./logs/mysql_logs/db102:/var/log
+      - /etc/localtime:/etc/localtime
+      - mariadb102:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    networks:
+      ohrmprodnet:
+        ipv4_address: 10.2.1.102
+    restart: always
+    container_name: prod_mariadb_102
 
+volumes:
+  mariadb102:
+
+networks:
+  ohrmprodnet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.2.0.0/16
+         gateway: 10.2.0.1
