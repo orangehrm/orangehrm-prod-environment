@@ -123,3 +123,5 @@ RUN echo "zend_extension=ioncube.so" |  tee /etc/php/7.4/mods-available/00-ioncu
     && ln -s /etc/php/7.4/mods-available/00-ioncube.ini /etc/php/7.4/cli/conf.d/00-ioncube.ini \
     && ln -s /etc/php/7.4/mods-available/00-ioncube.ini /etc/php/7.4/apache2/conf.d/00-ioncube.ini
 
+RUN service apache2 start
+
