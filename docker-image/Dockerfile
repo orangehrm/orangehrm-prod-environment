@@ -9,6 +9,10 @@ RUN apt update \
 #set the TimeZone
 ENV TZ="Asia/Colombo"
 
+#Install MariaDB 10.4 client
+RUN curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+RUN bash mariadb_repo_setup --mariadb-server-version=10.4.22
+RUN apt install -y mariadb-client
 
 #Install Other server dependencies
 RUN apt install -y \
