@@ -3,19 +3,17 @@ LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 
 WORKDIR /var/www/html
 
-RUN apt update \
+RUN apt-get update \
     && apt install -y vim wget unzip
 
 #set the TimeZone
 ENV TZ="Asia/Colombo"
+ARG DEBIAN_FRONTEND="noninteractive"
 
-#Install MariaDB 10.4 client
-RUN curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-RUN bash mariadb_repo_setup --mariadb-server-version=10.4.22
-RUN apt install -y mariadb-client
 
 #Install Other server dependencies
 RUN apt install -y \
+    apt-transport-https \
     fonts-urw-base35\
     poppler-utils \
     libreoffice \
@@ -30,11 +28,16 @@ RUN apt install -y \
     cron\
     apt-utils
 
+#Install MariaDB 10.4 client
+RUN curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+RUN bash mariadb_repo_setup --mariadb-server-version=10.4.22
+RUN apt install -y mariadb-client
+
 # -----------------------------------------------------------------------------
 # Installing Apache 
 # -----------------------------------------------------------------------------
 
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y apache2 \
+RUN  apt install -y apache2 \
     && update-rc.d apache2 defaults \
     && service apache2 start
 
