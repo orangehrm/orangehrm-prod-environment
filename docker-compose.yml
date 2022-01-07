@@ -4,7 +4,6 @@ services:
     image: orangehrm/orangehrm-environment-images:prod-php-7.4-ubuntu20.04
     ports:
       - "443:443"
-    tty: true
     volumes:
       - ./html:/var/www/html
       - ./config/apache2/sites-available:/etc/apache2/sites-available
