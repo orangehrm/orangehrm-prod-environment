@@ -102,33 +102,19 @@ RUN pecl install mcrypt-1.0.4
 RUN echo "extension=apcu.so" | tee /etc/php/7.4/mods-available/apcu.ini \
     && ln -s /etc/php/7.4/mods-available/apcu.ini /etc/php/7.4/cli/conf.d/apcu.ini \
     && ln -s /etc/php/7.4/mods-available/apcu.ini /etc/php/7.4/apache2/conf.d/apcu.ini
-#Enable Mcrypt Extension   
-RUN echo "extension=mcrypt.so" |  tee /etc/php/7.4/mods-available/mcrypt.ini \
-    && ln -s /etc/php/7.4/mods-available/mcrypt.ini /etc/php/7.4/cli/conf.d/mcrypt.ini \
-    && ln -s /etc/php/7.4/mods-available/mcrypt.ini /etc/php/7.4/apache2/conf.d/mcrypt.ini 
-#Enable SSH2 Extension
-RUN echo "extension=ssh2.so" |  tee /etc/php/7.4/mods-available/ssh2.ini \
-    && ln -s /etc/php/7.4/mods-available/ssh2.ini /etc/php/7.4/cli/conf.d/ssh2.ini \
-    && ln -s /etc/php/7.4/mods-available/ssh2.ini /etc/php/7.4/apache2/conf.d/ssh2.ini
+
 #Enable IGBINARY Extension
 RUN echo "extension=igbinary.so" |  tee /etc/php/7.4/mods-available/igbinary.ini \
     && ln -s /etc/php/7.4/mods-available/igbinary.ini /etc/php/7.4/cli/conf.d/igbinary.ini \
     && ln -s /etc/php/7.4/mods-available/igbinary.ini /etc/php/7.4/apache2/conf.d/igbinary.ini
-#Enable MEMCACHED Extension
-RUN echo "extension=memcached.so" |  tee /etc/php/7.4/mods-available/memcached.ini \
-    && ln -s /etc/php/7.4/mods-available/memcached.ini /etc/php/7.4/cli/conf.d/memcached.ini \
-    && ln -s /etc/php/7.1/mods-available/memcached.ini /etc/php/7.4/apache2/conf.d/memcached.ini 
 
 # IonCube module
-RUN wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip \
-    && unzip ioncube_loaders_lin_x86-64.zip \
-    && rm ioncube_loaders_lin_x86-64.zip \
-    && cp /var/www/html/ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube.so
+COPY ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so
 
-#Enable IonCube module
-RUN echo "zend_extension=ioncube.so" |  tee /etc/php/7.4/mods-available/00-ioncube.ini \
-    && ln -s /etc/php/7.4/mods-available/00-ioncube.ini /etc/php/7.4/cli/conf.d/00-ioncube.ini \
-    && ln -s /etc/php/7.4/mods-available/00-ioncube.ini /etc/php/7.4/apache2/conf.d/00-ioncube.ini
+
+#Copy the php configuration file
+COPY php.ini /etc/php/7.4/apache2/php.ini
+COPY php.ini /etc/php/7.4/cli/php.ini
 
 #Start apache 
 CMD [ "/usr/sbin/apache2ctl" , "-D" , "FOREGROUND" ]
