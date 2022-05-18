@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ php-7.4.19-rhel-8 ]
 
+env:
+  REGISTRY: hub.docker.com
+  DOCKER_HUB_REPO: "orangehrm/orangehrm-environment-images"
+  TAG_NAME: "prod-php-7.4.19-rhel-8"
+  UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
+  UPSTREAM_BRANCH: "refs/heads/php-7.4.19-rhel-8"
 
 jobs:
 
@@ -14,4 +20,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+  
+      - name: Verify prerequisits
+        run: |
+          docker --version
+          docker-compose --version
+          composer --version
+  
+      - name: Install test suite dependencis
+        run: composer install
+
+      - name: Build docker image
+        run: docker build -t ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} docker-image
+
+      - name: Spin up the container
+        run: |
+          docker run -itd --name db_container ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }}
+          docker ps -a
+
+      - name: Run unit test suite
+        run: |
+          sleep 10s
+          php vendor/bin/codecept run unit
+
+      - name: Get installed php version
+        run: echo "VERSION_TAG_NAME=prod-php-7.4.20-rhel-8" >> $GITHUB_ENV
+
+      - name: New image with a version tag if VERSION_TAG_NAME differs from the TAG_NAME
+        if: ${{ env.TAG_NAME != env.VERSION_TAG_NAME }}
+        run: docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
+
+      - name: Docker hub login
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: docker login -u=${{ secrets.DOCKER_HUB_USERNAME }} -p=${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Deploy changes to the docker hub
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: |
+          docker push ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
+          docker push ${{ env.DOCKER_HUB_REPO }}
+          echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}'
+        
+      - name: Docker hub logout
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: docker logout    
