@@ -32,8 +32,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(r
 
 #Install services
 RUN dnf install -y memcached \
-cronie \
-supervisor
+cronie 
 
 # Install prerequisites
 RUN  dnf install -y libmemcached-devel 
