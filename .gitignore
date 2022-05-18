@@ -4,3 +4,4 @@ vendor/
 logs/*
 tests/_output/*
 .DS_Store
+composer.lock
