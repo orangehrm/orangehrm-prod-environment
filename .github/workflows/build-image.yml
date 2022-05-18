@@ -1,4 +1,4 @@
-name: Docker Image Build, Test & Deploy
+name: OrangeHRM PROD Image Build Workflow
 
 on:
   push:
