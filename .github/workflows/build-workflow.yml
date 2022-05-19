@@ -37,7 +37,7 @@ jobs:
 
       - name: Spin up the container
         run: |
-          docker run -itd --name db_container ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }}
+          docker-compose up -d
           docker ps -a
 
       - name: Run unit test suite
@@ -46,7 +46,7 @@ jobs:
           php vendor/bin/codecept run unit
 
       - name: Get installed php version
-        run: echo "VERSION_TAG_NAME=prod-php-$(php -r 'echo PHP_VERSION;')-rhel-8" >> $GITHUB_ENV
+        run: echo "VERSION_TAG_NAME=prod-php-$(dokcer exec prod_web_rhel php -r 'echo PHP_VERSION;')-rhel-8" >> $GITHUB_ENV
 
       - name: New image with a version tag if VERSION_TAG_NAME differs from the TAG_NAME
         if: ${{ env.TAG_NAME != env.VERSION_TAG_NAME }}
@@ -56,11 +56,17 @@ jobs:
         if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
         run: docker login -u=${{ secrets.DOCKER_HUB_USERNAME }} -p=${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Deploy changes to the docker hub
+      - name: Deploy changes to the docker hub with version tag
         if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
         run: |
           docker push ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
           echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}'
+      
+      - name: Deploy changes to the docker hub with latest tag
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: |
+          docker push ${{ env.DOCKER_HUB_REPO }}
+          echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:latest'
         
       - name: Docker hub logout
         if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
