@@ -2,16 +2,17 @@ name: OrangeHRM PROD Image Build Workflow
 
 on:
   push:
-    branches: [ php-7.4.19-rhel-8 ]
+    branches: [ php-7.4-rhel-8 ]
   pull_request:
-    branches: [ php-7.4.19-rhel-8 ]
+    branches: [ php-7.4-rhel-8 ]
 
 env:
   REGISTRY: hub.docker.com
   DOCKER_HUB_REPO: "orangehrm/orangehrm-environment-images"
   TAG_NAME: "prod-php-7.4.19-rhel-8"
+  LATEST_TAG_NAME: "prod-php-latest-rhel-8"
   UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
-  UPSTREAM_BRANCH: "refs/heads/php-7.4.19-rhel-8"
+  UPSTREAM_BRANCH: "refs/heads/php-7.4-rhel-8"
 
 jobs:
 
@@ -66,7 +67,7 @@ jobs:
         if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
         run: |
           docker push ${{ env.DOCKER_HUB_REPO }}
-          echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:latest'
+          echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}'
         
       - name: Docker hub logout
         if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
