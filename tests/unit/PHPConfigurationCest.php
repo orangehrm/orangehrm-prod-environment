@@ -10,10 +10,46 @@ class PHPConfigurationCest
     {
     }
 
+    public function checkPHPConfig_short_open_tag(UnitTester $I){
+        $I->wantTo("verify the config - short_open_tag = OFF");
+        $I->runShellCommand("docker exec prod_web_rhel php -i | grep short_open_tag");
+        $I->canSeeInShellOutput("short_open_tag => Off");
+    }
+
+    public function checkPHPConfig_upload_max_filesize(UnitTester $I){
+        $I->wantTo("verify the config - upload_max_filesize = 50M");
+        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('upload_max_filesize');\"");
+        $I->canSeeInShellOutput("50M");
+    }
+
+    // public function checkPHPConfig_max_execution_time(UnitTester $I){
+    //     $I->wantTo("verify the config - max_execution_time = 300");
+    //     $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('max_execution_time');\"");
+    //     $I->canSeeInShellOutput("300");
+    // }
+
+    public function checkPHPConfig_memory_limit(UnitTester $I){
+        $I->wantTo("verify the config - memory_limit = 2048M");
+        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('memory_limit');\"");
+        $I->canSeeInShellOutput("2048M");
+    }
+
+    public function checkPHPConfig_max_input_vars(UnitTester $I){
+        $I->wantTo("verify the config - max_input_vars = 1500");
+        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('max_input_vars');\"");
+        $I->canSeeInShellOutput("1500");
+    }
+
     public function checkPHPConfig_expose_php(UnitTester $I){
         $I->wantTo("verify the config - expose_php = OFF");
         $I->runShellCommand("docker exec prod_web_rhel php -i | grep expose_php");
         $I->canSeeInShellOutput("expose_php => Off");
+    }
+
+    public function checkPHPConfig_date_timezone(UnitTester $I){
+        $I->wantTo("verify the config - date.timezone = Asia/Colombo");
+        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('date.timezone');\"");
+        $I->canSeeInShellOutput("Asia/Colombo");
     }
 
     public function checkPHPConfig_enable_dl(UnitTester $I){
@@ -52,33 +88,9 @@ class PHPConfigurationCest
         $I->canSeeInShellOutput("1");
     }
 
-    public function checkPHPConfig_upload_max_filesize(UnitTester $I){
-        $I->wantTo("verify the config - upload_max_filesize = 50M");
-        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('upload_max_filesize');\"");
-        $I->canSeeInShellOutput("50M");
-    }
-
-    public function checkPHPConfig_memory_limit(UnitTester $I){
-        $I->wantTo("verify the config - memory_limit = 2048M");
-        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('memory_limit');\"");
-        $I->canSeeInShellOutput("2048M");
-    }
-
-    public function checkPHPConfig_max_input_vars(UnitTester $I){
-        $I->wantTo("verify the config - max_input_vars = 1500");
-        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('max_input_vars');\"");
-        $I->canSeeInShellOutput("1500");
-    }
-
-    public function checkPHPConfig_short_open_tag(UnitTester $I){
-        $I->wantTo("verify the config - short_open_tag = OFF");
-        $I->runShellCommand("docker exec prod_web_rhel php -i | grep short_open_tag");
-        $I->canSeeInShellOutput("short_open_tag => Off");
-    }
-
-    public function checkPHPConfig_date_timezone(UnitTester $I){
-        $I->wantTo("verify the config - date.timezone = Asia/Colombo");
-        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('date.timezone');\"");
-        $I->canSeeInShellOutput("Asia/Colombo");
+    public function checkPHPConfig_precision(UnitTester $I){
+        $I->wantTo("verify the config - precision = 14");
+        $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('precision');\"");
+        $I->canSeeInShellOutput("14");
     }
 }
