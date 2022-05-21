@@ -1,7 +1,15 @@
 FROM redhat/ubi8-init
 LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 
+ARG REDHAT_USERNAME
+ARG REDHAT_PASSWORD
+
 WORKDIR /var/www/html
+
+# Register a system with the Red Hat Customer Portal
+RUN subscription-manager register --username $REDHAT_USERNAME --password $REDHAT_PASSWORD && \
+subscription-manager refresh && \
+subscription-manager attach --auto
 
 RUN dnf update -y
 
@@ -120,6 +128,19 @@ COPY php.ini /etc/php.ini
 # Copy Cert and Private Keys
 COPY httpd/cert/localhost.crt /etc/pki/tls/certs/localhost.crt
 COPY httpd/cert/localhost.key /etc/pki/tls/private/localhost.key
+
+# Install Other Server Dependencies
+RUN dnf install -y ImageMagick \
+openssl-devel \ 
+poppler-utils \
+libreoffice-draw \
+libreoffice-writer \
+urw-base35-fonts-20170801-10.el8.noarch
+
+RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
+unzip ohrm-font-installer-rhel && \
+cd font-installer && \
+bash install-fonts.sh
 
 # Enable services
 RUN systemctl enable httpd.service
