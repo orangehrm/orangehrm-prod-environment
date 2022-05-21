@@ -17,29 +17,14 @@ class WebContainerCest
         $I->seeInShellOutput("true");
     }
 
-    // public function checkSupervisorInstallation(UnitTester $I){
-    //     $I->wantTo("verify supervisor is installed in the container");
-
-    //     $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep supervisor");
-    //     $I->seeInShellOutput('supervisor-3');
-
-    // }
-
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel httpd -v");
         $I->seeInShellOutput('Apache/2.4.37');
     }
-
-    // public function checkImageMagick(UnitTester $I){
-    //     $I->wantTo("verify imagemagick is installed in the container");
-    //     $I->runShellCommand("docker exec prod_web_rhel yum list installed | grep ImageMagick");
-    //     $I->seeInShellOutput('ImageMagick.x86_64');
-    // }
     
     public function checkApacheServiceIsRunning(UnitTester $I){
         $I->wantTo("verify apache is up and running in the container");
-        //$I->runShellCommand("ping -c 10 localhost");
         $I->runShellCommand(" docker exec prod_web_rhel systemctl status httpd");
         $I->seeInShellOutput('active (running)');
     }
@@ -70,37 +55,35 @@ class WebContainerCest
     //     $I->seeInShellOutput('active (running)');
     // }
 
-    // public function checkMySQLClientInstallation(UnitTester $I){
-    //     $I->wantTo("verify mysql-client is installed in the container");
-    //     $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep MariaDB-client");
-    //     $I->seeInShellOutput('MariaDB-client');
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel yum list installed | grep ImageMagick");
+        $I->seeInShellOutput('ImageMagick');
+    }
 
-    // }
+    public function checkOpensslDevelInstallation(UnitTester $I){
+        $I->wantTo("verify openssl-devel is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel yum list installed | grep openssl-devel");
+        $I->seeInShellOutput('openssl-devel');
+    }
 
-    //  public function checkOracleClientInstallation(UnitTester $I){
-    //         $I->wantTo("verify oralce client is installed in the container");
-    //         $I->runShellCommand("docker exec prod_web_rhel sqlplus -v");
-    //         $I->seeInShellOutput('SQL*Plus: Release 11.2.0.2.0 Production');
-    //  }
+    public function checkPopplerUtilInstallation(UnitTester $I){
+        $I->wantTo("verify poppler-util is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep poppler-util");
+        $I->seeInShellOutput('poppler-util');
+    }
 
-    // public function checkLibreOfficeInstallation(UnitTester $I){
-    //     $I->wantTo("verify LibreOffice is installed in the container");
-    //     $I->runShellCommand("docker exec prod_web_rhel libreoffice --version");
-    //     $I->seeInShellOutput('LibreOffice');
-    // }
+    public function checkLibreOfficeDrawInstallation(UnitTester $I){
+        $I->wantTo("verify libreOffice-draw is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep libreoffice-draw");
+        $I->seeInShellOutput('libreoffice-draw');
+    }
 
-
-//   public function checkPopplerUtilInstallation(UnitTester $I){
-//         $I->wantTo("verify poppler-util is installed in the container");
-//         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep poppler-util");
-//         $I->seeInShellOutput('poppler-util');
-//   }
-
-  public function checkLibSSLInstallation(UnitTester $I){
-          $I->wantTo("verify openssl is installed in the container");
-          $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep ssl");
-          $I->seeInShellOutput('openssl');
-  }
+    public function checkLibreOfficeWriterInstallation(UnitTester $I){
+        $I->wantTo("verify libreOffice-writer is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep libreoffice-writer");
+        $I->seeInShellOutput('libreoffice-writer');
+    }
 
     public function checkLibSSHInstallation(UnitTester $I){
             $I->wantTo("verify libssh2 is installed in the container");
@@ -108,31 +91,18 @@ class WebContainerCest
             $I->seeInShellOutput('libssh2');
     }
 
-    // public function checkZipInstallation(UnitTester $I){
-    //     $I->wantTo("verify zip library is installed in the container");
-    //     $I->runShellCommand("docker exec prod_web_rhel zip -v");
-    //     $I->seeInShellOutput('Zip 3');
-    // }
-
     public function checkUnzipIsInstallation(UnitTester $I){
         $I->wantTo("verify UnZip library is installed in the container");
-        $I->runShellCommand("docker exec prod_web_rhel unzip -v");
-        $I->seeInShellOutput('UnZip 6.00');
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep unzip");
+        $I->seeInShellOutput('unzip');
     }
 
 
     public function checkCurlInstallation(UnitTester $I){
         $I->wantTo("verify curl is installed in the container");
-        $I->runShellCommand("docker exec prod_web_rhel curl --version");
-        $I->seeInShellOutput('curl 7.61.1');
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep curl");
+        $I->seeInShellOutput('curl');
     }
-
-    // public function checkP7zipInstallation(UnitTester $I){
-    //     $I->wantTo("verify p7zip is installed in the container");
-    //     $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep p7zip");
-    //     $I->seeInShellOutput('p7zip-16');
-
-    // }
 
     public function checkPHPVersion(UnitTester $I){
         $I->wantTo("verify php 7.4 is installed in the container");
