@@ -3,8 +3,6 @@ name: OrangeHRM PROD Image Build Workflow
 on:
   push:
     branches: [ php-7.4-rhel-8 ]
-  pull_request:
-    branches: [ php-7.4-rhel-8 ]
 
 env:
   REGISTRY: hub.docker.com
