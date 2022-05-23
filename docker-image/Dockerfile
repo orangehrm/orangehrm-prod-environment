@@ -144,7 +144,12 @@ unzip ohrm-font-installer-rhel && \
 cd font-installer && \
 bash install-fonts.sh
 
+# Unregister subscription
+RUN subscription-manager unregister
+
 # Enable services
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
+
+ 
