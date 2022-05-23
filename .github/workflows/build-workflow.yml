@@ -66,7 +66,7 @@ jobs:
           echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}'
       
       - name: Deploy changes to the docker hub with latest tag
-        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH && env.TAG_NAME != env.VERSION_TAG_NAME }}
         run: |
           docker push ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}
           echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}'
