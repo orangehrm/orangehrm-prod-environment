@@ -137,6 +137,8 @@ libreoffice-draw \
 libreoffice-writer \
 urw-base35-fonts-20170801-10.el8.noarch
 
+RUN dnf group install -y "Fonts"
+
 RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
 unzip ohrm-font-installer-rhel && \
 cd font-installer && \
