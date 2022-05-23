@@ -84,7 +84,7 @@ jobs:
       #     username: ${{secrets.MAIL_USERNAME}}
       #     password: ${{secrets.MAIL_PASSWORD}}
       #     subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-      #     body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+      #     body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} ${{ job.status }}
       #     to: techops@orangehrm.com
       #     from: noreply@orangehrm.com
       ##    secure: true 
@@ -98,8 +98,8 @@ jobs:
       #     username: ${{secrets.MAIL_USERNAME}}
       #     password: ${{secrets.MAIL_PASSWORD}}
       #     subject: PHP Version of ${{ github.repository }} Changed
-      #     body: Latest Image has been replaced with ${{ env.VERSION_TAG_NAME }}
+      #     body: Latest Image of ${{ github.repository }} has been replaced with ${{ env.VERSION_TAG_NAME }}
       #     to: techops@orangehrm.com
       #     from: noreply@orangehrm.com
-      ##     secure: true
+      ##    ssecure: true
      
