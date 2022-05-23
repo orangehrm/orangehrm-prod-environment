@@ -101,5 +101,5 @@ jobs:
       #     body: Latest Image of ${{ github.repository }} has been replaced with ${{ env.VERSION_TAG_NAME }}
       #     to: techops@orangehrm.com
       #     from: noreply@orangehrm.com
-      ##    ssecure: true
+      ##    secure: true
      
