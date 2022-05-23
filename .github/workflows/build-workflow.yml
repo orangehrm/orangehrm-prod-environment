@@ -83,8 +83,8 @@ jobs:
       #     server_port: ${{secrets.MAIL_SERVER_PORT}}
       #     username: ${{secrets.MAIL_USERNAME}}
       #     password: ${{secrets.MAIL_PASSWORD}}
-      #     subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-      #     body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} ${{ job.status }}
+      #     subject: ${{ github.job }} job of ${{ github.repository }} - Status: ${{ job.status }}
+      #     body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} - Status: ${{ job.status }}
       #     to: techops@orangehrm.com
       #     from: noreply@orangehrm.com
       ##    secure: true 
