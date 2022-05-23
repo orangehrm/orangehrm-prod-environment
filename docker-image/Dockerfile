@@ -1,98 +1,118 @@
-FROM centos/systemd
+FROM redhat/ubi8-init
 LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
+
+ARG REDHAT_USERNAME
+ARG REDHAT_PASSWORD
 
 WORKDIR /var/www/html
 
+# Register a system with the Red Hat Customer Portal
+RUN subscription-manager register --username $REDHAT_USERNAME --password $REDHAT_PASSWORD && \
+subscription-manager refresh && \
+subscription-manager attach --auto
+
+RUN dnf update -y
+
 # -----------------------------------------------------------------------------
-# Adding IUS repository and MariaDB GPG Keys
+# Install utility tools
 # -----------------------------------------------------------------------------
-
-RUN yum install -y epel-release https://repo.ius.io/ius-release-el$(rpm -E '%{rhel}').rpm \
-        && rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-
-COPY ./repos/mariadb.repo /etc/yum.repos.d/
-
-# Install Font group
-RUN yum -y groupinstall "Font"
+RUN  dnf install -y langpacks-en \
+glibc-all-langpacks \
+unzip \
+vim \
+wget \
+make \
+curl
 
 # -----------------------------------------------------------------------------
 # Install Middlewares and modules
 # -----------------------------------------------------------------------------
 
-RUN yum -y install \
-    yum-utils \
-    httpd \
-    gcc \
-    MariaDB-client \
-    libaio-devel \
-    poppler-utils \
-    supervisor \
-    libreoffice-draw \
-    libreoffice-writer \
-    libmcrypt \
-    libmcrypt-devel \
-    cronie \
-    libssh2 \
-    libssh2-devel \
-    memcached \
-    libmemcached-devel \
-    initscripts \
-    ImageMagick \
-    ImageMagick-devel \
-    ImageMagick-perl \
-    mod_ssl \
-    mod_php74 \
-    php74-cli \
-    php74-ldap \
-    php74-bcmath \
-    php74-devel \
-    php74-mysqlnd \
-    php74-pdo \
-    php74-mbstring \
-    php74-soap \
-    php74-gd \
-    php74-xml \
-    php74-tidy \
-    php74-imap \
-    php74-json \
-    php74-gmp \
-    php74-pecl-apcu \
-    php74-pecl-igbinary \
-    php74-pecl-zip \
-    zip \
-    unzip \
-    p7zip \
-    urw-fonts.noarch \
-    pear1.noarch \
-    && yum -y update bash \
-    && rm -rf /var/cache/yum/* \
-    && yum clean all
+RUN dnf install -y httpd \
+mod_ssl
 
-# Install PECL modules
-RUN yes | pecl install -f ssh2-1.2
-RUN yes | pecl install -f mcrypt-1.0.3 
-RUN printf "\n" | pecl install -f memcached-3.1.5 
+RUN sed -i 's:^LoadModule mpm_event_module modules/mod_mpm_event.so$:#LoadModule mpm_event_module modules/mod_mpm_event.so:g' /etc/httpd/conf.modules.d/00-mpm.conf
+RUN sed -i 's:^#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so$:LoadModule mpm_prefork_module modules/mod_mpm_prefork.so:g' /etc/httpd/conf.modules.d/00-mpm.conf
 
 
-# Install oracledb clients
-RUN mkdir /opt/oracle
-COPY oracle-db /opt/oracle
-RUN cd /opt/oracle;unzip instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-    && unzip instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-    && unzip instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-basic-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-sdk-linux-x86-64-11.2.0.2.0.zip \
-    && rm instantclient-sqlplus-linux-x86-64-11.2.0.2.0.zip \
-    && ln -s /opt/oracle/instantclient_11_2/libclntsh.so.11.1 /opt/oracle/instantclient_11_2/libclntsh.so \
-    && ln -s /opt/oracle/instantclient_11_2/libocci.so.11.1 /opt/oracle/instantclient_11_2/libocci.so \
-    && ln -s /opt/oracle/instantclient_11_2/sqlplus /usr/local/bin/sqlplus \
-    && echo /opt/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient \
-    && ldconfig
-ENV ORACLE_HOME=/opt/oracle/instantclient_11_2
-ENV LD_LIBRARY_PATH="$ORACLE_HOME"
-ENV PATH="$ORACLE_HOME:$PATH"
-ENV container docker
+# add epel repository
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E '%{rhel}').noarch.rpm
 
+#Install services
+RUN dnf install -y memcached \
+cronie 
+
+# Install prerequisites
+RUN  dnf install -y libmemcached-devel 
+
+
+# Enable PHP 7.4 module
+RUN dnf module reset php -y
+RUN dnf module enable php:7.4 -y
+
+# Install PHP 
+RUN dnf install -y php
+
+# Install PHP Modules
+RUN dnf install -y php-ldap \
+php-bcmath \
+php-devel \
+php-mysqlnd \
+php-pdo \
+php-soap \
+php-gd \
+php-json \
+php-gmp \
+php-pecl-apcu \
+php-pecl-zip \
+php-pear.noarch
+
+# Install dependencies for PECL packages
+RUN dnf install -y libmcrypt libmcrypt-devel --disablerepo="*" --enablerepo="epel"
+RUN dnf install -y libssh2-devel --disablerepo="*" --enablerepo="epel"
+
+# Install third party PHP packages
+RUN yes | pecl install -f igbinary-3.2.6
+RUN yes | pecl install -f ssh2-1.3.1
+RUN yes | pecl install -f mcrypt-1.0.4
+RUN printf "\n" | pecl install -f memcached-3.1.5
+
+
+##Install php-tidy and php-imap modules##
+
+# Install prerequisites
+RUN  dnf install -y diffutils \
+libtidy-devel \
+libc-client \
+libc-client-devel
+
+# Download and extract the PHP source code
+RUN mkdir ~/php_source 
+RUN cd ~/php_source && \
+wget https://www.php.net/distributions/php-$(php -r 'echo PHP_VERSION;').tar.gz && \
+gunzip php-$(php -r 'echo PHP_VERSION;').tar.gz &&\
+tar xvf php-$(php -r 'echo PHP_VERSION;').tar
+
+# Build and enable the tidy module
+RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/tidy && \
+phpize && \
+./configure && \
+make
+RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/tidy && \
+mv modules/tidy.so $(php -r 'echo ini_get("extension_dir");') && \
+echo "extension=tidy.so" >> /etc/php.d/40-tidy.ini
+
+#Build and enable the imap module
+RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
+phpize && \
+./configure --with-libdir=lib64 --with-kerberos --with-imap-ssl &&\
+make
+RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
+mv modules/imap.so $(php -r 'echo ini_get("extension_dir");') && \
+echo "extension=imap.so" >> /etc/php.d/40-imap.ini
+
+#Reload apache service and remove the downloaded source code
+RUN rm -rf ~/php_source
 
 # Update the default apache site with the config we created.
 RUN mkdir /etc/httpd/sites-available
@@ -101,16 +121,28 @@ RUN echo "IncludeOptional sites-enabled/*.conf" >> /etc/httpd/conf/httpd.conf
 COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
 RUN ln -s /etc/httpd/sites-available/orangehrm.conf /etc/httpd/sites-enabled/
 
-# Export port 443
-EXPOSE 443
-
 # Copy IonCube loader and PHP configuration files
-COPY ioncube/ioncube_loader_lin_7.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20121212/ioncube_loader_lin_7.4.so
+COPY ioncube/ioncube_loader_lin_7.4.so /usr/lib64/php/modules/ioncube_loader_lin_7.4.so
 COPY php.ini /etc/php.ini
 
-# Add supervisor conf
-RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor /var/log/memcached
-COPY supervisord.conf /etc/supervisord.conf
+# Copy Cert and Private Keys
+COPY httpd/cert/localhost.crt /etc/pki/tls/certs/localhost.crt
+COPY httpd/cert/localhost.key /etc/pki/tls/private/localhost.key
+
+# Install Other Server Dependencies
+RUN dnf install -y ImageMagick \
+openssl-devel \ 
+poppler-utils \
+libreoffice-draw \
+libreoffice-writer \
+urw-base35-fonts-20170801-10.el8.noarch
+
+RUN dnf group install -y "Fonts"
+
+RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
+unzip ohrm-font-installer-rhel && \
+cd font-installer && \
+bash install-fonts.sh
 
 # Enable services
 RUN systemctl enable httpd.service
