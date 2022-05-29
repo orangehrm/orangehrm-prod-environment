@@ -43,7 +43,7 @@ RUN dnf install -y memcached \
 cronie 
 
 # Install prerequisites
-RUN  dnf install -y libmemcached-devel 
+RUN dnf install -y libmemcached-devel 
 
 
 # Enable PHP 7.4 module
