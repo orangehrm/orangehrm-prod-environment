@@ -151,8 +151,8 @@ RUN dnf module reset mariadb -y
 
 # Enable the MariaDB repository
 RUN cd ~ && \ 
-curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-RUN bash mariadb_repo_setup --mariadb-server-version=10.4.22
+curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup && \
+bash mariadb_repo_setup --mariadb-server-version=10.4.22
 
 # Refresh the repository cache
 RUN dnf makecache
