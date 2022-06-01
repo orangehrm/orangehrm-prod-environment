@@ -69,7 +69,7 @@ class WebContainerCest
 
     public function checkMySQLClientInstallation(UnitTester $I){
         $I->wantTo("verify mysql-client is installed in the container");
-        $I->runShellCommand("docker exec prod_web rpm -qa | grep MariaDB-client");
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep MariaDB-client");
         $I->seeInShellOutput('MariaDB-client');
 
     }
