@@ -67,6 +67,13 @@ class WebContainerCest
         $I->seeInShellOutput('openssl-devel');
     }
 
+    public function checkMySQLClientInstallation(UnitTester $I){
+        $I->wantTo("verify mysql-client is installed in the container");
+        $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep MariaDB-client");
+        $I->seeInShellOutput('MariaDB-client');
+
+    }
+
     public function checkPopplerUtilInstallation(UnitTester $I){
         $I->wantTo("verify poppler-util is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep poppler-util");

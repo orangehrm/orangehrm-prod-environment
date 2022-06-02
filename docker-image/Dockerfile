@@ -43,7 +43,7 @@ RUN dnf install -y memcached \
 cronie 
 
 # Install prerequisites
-RUN  dnf install -y libmemcached-devel 
+RUN dnf install -y libmemcached-devel 
 
 
 # Enable PHP 7.4 module
@@ -143,6 +143,23 @@ RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
 unzip ohrm-font-installer-rhel && \
 cd font-installer && \
 bash install-fonts.sh
+
+## Install MariaDB-client ##
+
+# Reset the MariaDB module
+RUN dnf module reset mariadb -y
+
+# Enable the MariaDB repository
+RUN cd ~ && \ 
+curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup && \
+bash mariadb_repo_setup --mariadb-server-version=10.4.22
+
+# Refresh the repository cache
+RUN dnf makecache
+
+# Install MariaDB from the new repository
+RUN dnf repolist && \
+dnf -y install MariaDB-client
 
 # Unregister subscription
 RUN subscription-manager unregister
