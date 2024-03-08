@@ -172,7 +172,3 @@ RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
 
-
-
-#Restart the Apache Server
-#RUN systemctl restart httpd.service
