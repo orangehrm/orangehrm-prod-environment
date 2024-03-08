@@ -164,13 +164,11 @@ dnf -y install MariaDB-client
 # Unregister subscription
 RUN subscription-manager unregister
 
+#Update Oslon Timezone Database
+RUN pecl install timezonedb
+
 # Enable services
 RUN systemctl enable httpd.service
 RUN systemctl enable memcached.service
 RUN systemctl enable crond.service
 
-#Update Oslon Timezone Database
-RUN pecl install timezonedb
-
-#Restart the Apache Server
-RUN systemctl restart httpd.service
