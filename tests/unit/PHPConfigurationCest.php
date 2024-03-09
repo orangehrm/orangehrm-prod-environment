@@ -29,7 +29,7 @@ class PHPConfigurationCest
     // }
 
     public function checkPHPConfig_memory_limit(UnitTester $I){
-        $I->wantTo("verify the config - memory_limit = 2048M");
+        $I->wantTo("verify the config - memory_limit = 2560M");
         $I->runShellCommand("docker exec prod_web_rhel php -r \"echo ini_get('memory_limit');\"");
         $I->canSeeInShellOutput("2560M");
     }
@@ -97,7 +97,7 @@ class PHPConfigurationCest
     public function checkPHPTimezone_database_version(UnitTester $I){
         $I->wantTo("verify the Timezone Database Version = Oslon");
         $I->runShellCommand("docker exec prod_web_rhel php -i | grep Timezone | grep Database | grep Version");
-        $I->canSeeInShellOutput("2024.1");
+        $I->canSeeInShellOutput("\"Olson\" Timezone Database Version => 0.system");
     }
 
 }
