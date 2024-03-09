@@ -10,7 +10,8 @@ services:
       - ./config/httpd/cert:/etc/httpd/cert
       - ./logs/ubuntu_logs:/var/log/httpd
       - /etc/localtime:/etc/localtime
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      #- /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./docker-image/php.ini:/etc/php.ini
     privileged: true
     restart: always
     hostname: orangehrm-prod-web_rhel
