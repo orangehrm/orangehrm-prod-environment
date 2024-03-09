@@ -3,8 +3,6 @@ name: OrangeHRM PROD Image Build Workflow
 on:
   push:
     branches: [ php-7.4-rhel-8 ]
-  pull_request:
-    branches: [ php-7.4-rhel-8 ]
   schedule:
     - cron: '30 0 * * MON'  # 0030 in UTC, 0600 in IST
 
