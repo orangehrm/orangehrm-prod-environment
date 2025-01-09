@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: hub.docker.com
-  DOCKER_HUB_REPO: "orangehrm/prod-environment-redhat"
+  DOCKER_HUB_REPO: "orangehrm/prod-environment"
   LATEST_TAG_NAME: "rhel8-php-8.2-latest"
   UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
   UPSTREAM_BRANCH: "refs/heads/php-8.2-rhel-8"

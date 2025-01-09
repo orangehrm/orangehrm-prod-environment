@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: orangehrm/prod-environment-redhat:rhel8-php-8.2-latest
+    image: orangehrm/prod-environment:rhel8-php-8.2-latest
     ports:
       - "443:443"
     volumes:
