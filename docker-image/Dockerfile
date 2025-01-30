@@ -26,6 +26,7 @@ RUN apt install -y \
     unzip \
     p7zip \
     cron\
+    qpdf\
     apt-utils
 
 #Start cron serviceRU

@@ -100,6 +100,12 @@ class WebContainerCest
 
     }
 
+    public function checkQPDF(UnitTester $I){
+        $I->wantTo("verify qpdf is installed in the container");
+        $I->runShellCommand("docker exec prod_web_ubuntu qpdf --version");
+        $I->seeInShellOutput('11.9');
+    }
+
     public function checkPHPVersion(UnitTester $I){
         $I->wantTo("verify php 8.3 is installed in the container");
         $I->runShellCommand("docker exec prod_web_ubuntu php --version");
